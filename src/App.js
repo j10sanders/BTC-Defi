@@ -1,6 +1,4 @@
 import React, { Component, useState, useEffect } from "react";
-import TBTC from "./tbtc.js/TBTC.js";
-import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
 import {

@@ -1,0 +1,238 @@
+{
+  "contractName": "IBTCETHPriceFeed",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"getPrice\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"getPrice()\":{\"details\":\"This does not account for any 'Flippening' event.\",\"return\":\"The price of one satoshi in wei.\"}}},\"userdoc\":{\"methods\":{\"getPrice()\":{\"notice\":\"Get the current price of bitcoin in ether.\"}}}},\"settings\":{\"compilationTarget\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/IBTCETHPriceFeed.sol\":\"IBTCETHPriceFeed\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/IBTCETHPriceFeed.sol\":{\"keccak256\":\"0xc953be0d654619205989d6dd8a94b2e4af5507dbfda2c0e258ac94f048cdfbc4\",\"urls\":[\"bzzr://65c110d8114bc5d7b8605d690e33dd609fe9b2061736140a421013d7ee58f031\",\"dweb:/ipfs/QmWKEZWeAAHkVtmx12Scq7DzTfbqi16x2MAvKbAr4daZUV\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.10;\n\ninterface IBTCETHPriceFeed {\n    /// @notice Get the current price of bitcoin in ether.\n    /// @dev This does not account for any 'Flippening' event.\n    /// @return The price of one satoshi in wei.\n    function getPrice() external view returns (uint256);\n}\n",
+  "sourcePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/IBTCETHPriceFeed.sol",
+  "ast": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/IBTCETHPriceFeed.sol",
+    "exportedSymbols": {
+      "IBTCETHPriceFeed": [
+        5973
+      ]
+    },
+    "id": 5974,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5967,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:12"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 5973,
+        "linearizedBaseContracts": [
+          5973
+        ],
+        "name": "IBTCETHPriceFeed",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Get the current price of bitcoin in ether.\n @dev This does not account for any 'Flippening' event.\n @return The price of one satoshi in wei.",
+            "id": 5972,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5968,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "247:2:12"
+            },
+            "returnParameters": {
+              "id": 5971,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5970,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5972,
+                  "src": "273:7:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5969,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "273:7:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "272:9:12"
+            },
+            "scope": 5973,
+            "src": "230:52:12",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5974,
+        "src": "26:258:12"
+      }
+    ],
+    "src": "0:285:12"
+  },
+  "legacyAST": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/IBTCETHPriceFeed.sol",
+    "exportedSymbols": {
+      "IBTCETHPriceFeed": [
+        5973
+      ]
+    },
+    "id": 5974,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5967,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:12"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 5973,
+        "linearizedBaseContracts": [
+          5973
+        ],
+        "name": "IBTCETHPriceFeed",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Get the current price of bitcoin in ether.\n @dev This does not account for any 'Flippening' event.\n @return The price of one satoshi in wei.",
+            "id": 5972,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5968,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "247:2:12"
+            },
+            "returnParameters": {
+              "id": 5971,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5970,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5972,
+                  "src": "273:7:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5969,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "273:7:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "272:9:12"
+            },
+            "scope": 5973,
+            "src": "230:52:12",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5974,
+        "src": "26:258:12"
+      }
+    ],
+    "src": "0:285:12"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-02-06T21:33:55.718Z",
+  "devdoc": {
+    "methods": {
+      "getPrice()": {
+        "details": "This does not account for any 'Flippening' event.",
+        "return": "The price of one satoshi in wei."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {
+      "getPrice()": {
+        "notice": "Get the current price of bitcoin in ether."
+      }
+    }
+  }
+}

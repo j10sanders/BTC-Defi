@@ -1,0 +1,420 @@
+{
+  "contractName": "IECDSAKeepVendor",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_groupSize",
+          "type": "uint256"
+        },
+        {
+          "name": "_honestThreshold",
+          "type": "uint256"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "openKeep",
+      "outputs": [
+        {
+          "name": "keepAddress",
+          "type": "address"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_groupSize\",\"type\":\"uint256\"},{\"name\":\"_honestThreshold\",\"type\":\"uint256\"},{\"name\":\"_owner\",\"type\":\"address\"}],\"name\":\"openKeep\",\"outputs\":[{\"name\":\"keepAddress\",\"type\":\"address\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"openKeep(uint256,uint256,address)\":{\"details\":\"Calls a recommended ECDSA keep factory to open a new keep.\",\"params\":{\"_groupSize\":\"Number of members in the keep.\",\"_honestThreshold\":\"Minimum number of honest keep members.\",\"_owner\":\"Address of the keep owner.\"},\"return\":\"Opened keep address.\"}},\"title\":\"ECDSA Keep Vendor\"},\"userdoc\":{\"methods\":{\"openKeep(uint256,uint256,address)\":{\"notice\":\"Open a new ECDSA keep.\"}},\"notice\":\"Contract reflecting an ECDSA keep vendor.\"}},\"settings\":{\"compilationTarget\":{\"@keep-network/keep-ecdsa/contracts/api/IECDSAKeepVendor.sol\":\"IECDSAKeepVendor\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@keep-network/keep-ecdsa/contracts/api/IECDSAKeepVendor.sol\":{\"keccak256\":\"0x99fa3f30361fb36f05a6eb19b76cee37a3aaea7ce1fc9297c462c38e0bf62fce\",\"urls\":[\"bzzr://16045019621ce4b87ad5421a123abde8c4b935cc5306470e8ef03550877c4735\",\"dweb:/ipfs/QmcNH5B6geKJMkzUX3fE31CHDRtMeHH3x7GWXducTtjXSF\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.4;\n\n/// @title ECDSA Keep Vendor\n/// @notice Contract reflecting an ECDSA keep vendor.\ncontract IECDSAKeepVendor {\n    /// @notice Open a new ECDSA keep.\n    /// @dev Calls a recommended ECDSA keep factory to open a new keep.\n    /// @param _groupSize Number of members in the keep.\n    /// @param _honestThreshold Minimum number of honest keep members.\n    /// @param _owner Address of the keep owner.\n    /// @return Opened keep address.\n    function openKeep(\n        uint256 _groupSize,\n        uint256 _honestThreshold,\n        address _owner\n    ) external payable returns (address keepAddress);\n}\n",
+  "sourcePath": "@keep-network/keep-ecdsa/contracts/api/IECDSAKeepVendor.sol",
+  "ast": {
+    "absolutePath": "@keep-network/keep-ecdsa/contracts/api/IECDSAKeepVendor.sol",
+    "exportedSymbols": {
+      "IECDSAKeepVendor": [
+        7349
+      ]
+    },
+    "id": 7350,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 7337,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:26"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title ECDSA Keep Vendor\n @notice Contract reflecting an ECDSA keep vendor.",
+        "fullyImplemented": false,
+        "id": 7349,
+        "linearizedBaseContracts": [
+          7349
+        ],
+        "name": "IECDSAKeepVendor",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Open a new ECDSA keep.\n @dev Calls a recommended ECDSA keep factory to open a new keep.\n @param _groupSize Number of members in the keep.\n @param _honestThreshold Minimum number of honest keep members.\n @param _owner Address of the keep owner.\n @return Opened keep address.",
+            "id": 7348,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "openKeep",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 7344,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7339,
+                  "name": "_groupSize",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "492:18:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7338,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "492:7:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7341,
+                  "name": "_honestThreshold",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "520:24:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7340,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "520:7:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7343,
+                  "name": "_owner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "554:14:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7342,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "554:7:26",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "482:92:26"
+            },
+            "returnParameters": {
+              "id": 7347,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7346,
+                  "name": "keepAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "601:19:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7345,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "601:7:26",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "600:21:26"
+            },
+            "scope": 7349,
+            "src": "465:157:26",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7350,
+        "src": "108:516:26"
+      }
+    ],
+    "src": "0:625:26"
+  },
+  "legacyAST": {
+    "absolutePath": "@keep-network/keep-ecdsa/contracts/api/IECDSAKeepVendor.sol",
+    "exportedSymbols": {
+      "IECDSAKeepVendor": [
+        7349
+      ]
+    },
+    "id": 7350,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 7337,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:26"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title ECDSA Keep Vendor\n @notice Contract reflecting an ECDSA keep vendor.",
+        "fullyImplemented": false,
+        "id": 7349,
+        "linearizedBaseContracts": [
+          7349
+        ],
+        "name": "IECDSAKeepVendor",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Open a new ECDSA keep.\n @dev Calls a recommended ECDSA keep factory to open a new keep.\n @param _groupSize Number of members in the keep.\n @param _honestThreshold Minimum number of honest keep members.\n @param _owner Address of the keep owner.\n @return Opened keep address.",
+            "id": 7348,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "openKeep",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 7344,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7339,
+                  "name": "_groupSize",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "492:18:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7338,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "492:7:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7341,
+                  "name": "_honestThreshold",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "520:24:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7340,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "520:7:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7343,
+                  "name": "_owner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "554:14:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7342,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "554:7:26",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "482:92:26"
+            },
+            "returnParameters": {
+              "id": 7347,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7346,
+                  "name": "keepAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7348,
+                  "src": "601:19:26",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7345,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "601:7:26",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "600:21:26"
+            },
+            "scope": 7349,
+            "src": "465:157:26",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7350,
+        "src": "108:516:26"
+      }
+    ],
+    "src": "0:625:26"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-02-06T21:33:55.740Z",
+  "devdoc": {
+    "methods": {
+      "openKeep(uint256,uint256,address)": {
+        "details": "Calls a recommended ECDSA keep factory to open a new keep.",
+        "params": {
+          "_groupSize": "Number of members in the keep.",
+          "_honestThreshold": "Minimum number of honest keep members.",
+          "_owner": "Address of the keep owner."
+        },
+        "return": "Opened keep address."
+      }
+    },
+    "title": "ECDSA Keep Vendor"
+  },
+  "userdoc": {
+    "methods": {
+      "openKeep(uint256,uint256,address)": {
+        "notice": "Open a new ECDSA keep."
+      }
+    },
+    "notice": "Contract reflecting an ECDSA keep vendor."
+  }
+}

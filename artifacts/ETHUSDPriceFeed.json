@@ -1,0 +1,1077 @@
+{
+  "contractName": "ETHUSDPriceFeed",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "setValue",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "read",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "isOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"setValue\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"read\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{\"isOwner()\":{\"details\":\"Returns true if the caller is the current owner.\"},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * > Note: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/price-feed/MockMedianizer.sol\":\"ETHUSDPriceFeed\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol\":{\"keccak256\":\"0x353200d331fd2ce758760c5ea5c7f6f8c27d02b3ae308e5190adb1d2a8429a1f\",\"urls\":[\"bzzr://d9b79c4eeaca0143ae0efc1cc50e3eb9f49db05e9ae599c230548509fe0681e8\",\"dweb:/ipfs/QmYQwScbxP3SPJibSjZyVVsQ63w3uBrj7LnfXFDH4UqYUH\"]},\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/price-feed/MockMedianizer.sol\":{\"keccak256\":\"0x6519b07e6c40ffa5b791583b64ee78506a0b39052b04c081b9280bc57b84bd25\",\"urls\":[\"bzzr://68e81c758866ecac5972abdc47f5b10d8e2993ac3e2235c2550c720ae37398d3\",\"dweb:/ipfs/QmZw1kGc4NVHwdoYZvkBvZM9frvafcr2ztazNh5BcQzvxk\"]},\"openzeppelin-solidity/contracts/ownership/Ownable.sol\":{\"keccak256\":\"0xf79fb10e8235770eb4aea7249034076a3cc9f9119ad944fc48705bae9c9d20dc\",\"urls\":[\"bzzr://d12a11272051eb6586de8f7e0a82c04a98c9984ce8b2a6cf1ee439f65aba29a9\",\"dweb:/ipfs/QmS55hgTvNEAKinus19m65CB4wcymN8EiUPFpRx5tYJ1i2\"]}},\"version\":1}",
+  "bytecode": "0x60806040819052600080546001600160a01b03191633178082556001600160a01b0316917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a3610395806100576000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c8063552410771461006757806357de26a414610086578063715018a6146100a05780638da5cb5b146100a85780638f32d59b146100cc578063f2fde38b146100e8575b600080fd5b6100846004803603602081101561007d57600080fd5b503561010e565b005b61008e61016c565b60408051918252519081900360200190f35b610084610172565b6100b0610215565b604080516001600160a01b039092168252519081900360200190f35b6100d4610224565b604080519115158252519081900360200190f35b610084600480360360208110156100fe57600080fd5b50356001600160a01b0316610235565b610116610224565b610167576040805162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015290519081900360640190fd5b600155565b60015490565b61017a610224565b6101cb576040805162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015290519081900360640190fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031690565b6000546001600160a01b0316331490565b61023d610224565b61028e576040805162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015290519081900360640190fd5b6102978161029a565b50565b6001600160a01b0381166102df5760405162461bcd60e51b815260040180806020018281038252602681526020018061033b6026913960400191505060405180910390fd5b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b039290921691909117905556fe4f776e61626c653a206e6577206f776e657220697320746865207a65726f2061646472657373a265627a7a72305820571422fa7d61c5648c689536eb08dd3d96ffbcedcbc195811447cec9946db3e964736f6c634300050a0032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c8063552410771461006757806357de26a414610086578063715018a6146100a05780638da5cb5b146100a85780638f32d59b146100cc578063f2fde38b146100e8575b600080fd5b6100846004803603602081101561007d57600080fd5b503561010e565b005b61008e61016c565b60408051918252519081900360200190f35b610084610172565b6100b0610215565b604080516001600160a01b039092168252519081900360200190f35b6100d4610224565b604080519115158252519081900360200190f35b610084600480360360208110156100fe57600080fd5b50356001600160a01b0316610235565b610116610224565b610167576040805162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015290519081900360640190fd5b600155565b60015490565b61017a610224565b6101cb576040805162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015290519081900360640190fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031690565b6000546001600160a01b0316331490565b61023d610224565b61028e576040805162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015290519081900360640190fd5b6102978161029a565b50565b6001600160a01b0381166102df5760405162461bcd60e51b815260040180806020018281038252602681526020018061033b6026913960400191505060405180910390fd5b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b039290921691909117905556fe4f776e61626c653a206e6577206f776e657220697320746865207a65726f2061646472657373a265627a7a72305820571422fa7d61c5648c689536eb08dd3d96ffbcedcbc195811447cec9946db3e964736f6c634300050a0032",
+  "sourceMap": "646:46:15:-;;;;;657:6:37;:19;;-1:-1:-1;;;;;;657:19:37;666:10;657:19;;;;-1:-1:-1;;;;;724:6:37;;691:40;;657:6;;691:40;646:46:15;;;;;;",
+  "deployedSourceMap": "646:46:15:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;646:46:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;498:96;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;498:96:15;;:::i;:::-;;395:97;;;:::i;:::-;;;;;;;;;;;;;;;;1599:137:37;;;:::i;814:77::-;;;:::i;:::-;;;;-1:-1:-1;;;;;814:77:37;;;;;;;;;;;;;;1165:90;;;:::i;:::-;;;;;;;;;;;;;;;;;;1885:107;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1885:107:37;-1:-1:-1;;;;;1885:107:37;;:::i;498:96:15:-;1018:9:37;:7;:9::i;:::-;1010:54;;;;;-1:-1:-1;;;1010:54:37;;;;;;;;;;;;;;;;;;;;;;;;;;;;;573:5:15;:14;498:96::o;395:97::-;480:5;;395:97;:::o;1599:137:37:-;1018:9;:7;:9::i;:::-;1010:54;;;;;-1:-1:-1;;;1010:54:37;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1697:1;1681:6;;1660:40;;-1:-1:-1;;;;;1681:6:37;;;;1660:40;;1697:1;;1660:40;1727:1;1710:19;;-1:-1:-1;;;;;;1710:19:37;;;1599:137::o;814:77::-;852:7;878:6;-1:-1:-1;;;;;878:6:37;814:77;:::o;1165:90::-;1205:4;1242:6;-1:-1:-1;;;;;1242:6:37;1228:10;:20;;1165:90::o;1885:107::-;1018:9;:7;:9::i;:::-;1010:54;;;;;-1:-1:-1;;;1010:54:37;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1957:28;1976:8;1957:18;:28::i;:::-;1885:107;:::o;2093:225::-;-1:-1:-1;;;;;2166:22:37;;2158:73;;;;-1:-1:-1;;;2158:73:37;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2267:6;;;2246:38;;-1:-1:-1;;;;;2246:38:37;;;;2267:6;;;2246:38;;;2294:6;:17;;-1:-1:-1;;;;;;2294:17:37;-1:-1:-1;;;;;2294:17:37;;;;;;;;;;2093:225::o",
+  "source": "pragma solidity ^0.5.10;\n\nimport \"openzeppelin-solidity/contracts/ownership/Ownable.sol\";\nimport \"../external/IMedianizer.sol\";\n\n/// @notice A mock implementation of a medianizer price oracle\n/// @dev This is used in the Keep testnets only. Mainnet uses the MakerDAO medianizer.\ncontract MockMedianizer is Ownable, IMedianizer {\n    uint256 private value;\n\n    constructor() public {\n    }\n\n    function read()\n        external view\n        returns (uint256)\n    {\n        return value;\n    }\n\n    function setValue(uint256 _value)\n        external onlyOwner\n    {\n        value = _value;\n    }\n}\n\ncontract BTCUSDPriceFeed is MockMedianizer {\n}\n\ncontract ETHUSDPriceFeed is MockMedianizer {\n}\n",
+  "sourcePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/price-feed/MockMedianizer.sol",
+  "ast": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/price-feed/MockMedianizer.sol",
+    "exportedSymbols": {
+      "BTCUSDPriceFeed": [
+        6123
+      ],
+      "ETHUSDPriceFeed": [
+        6126
+      ],
+      "MockMedianizer": [
+        6120
+      ]
+    },
+    "id": 6127,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6087,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:15"
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 6088,
+        "nodeType": "ImportDirective",
+        "scope": 6127,
+        "sourceUnit": 10509,
+        "src": "26:63:15",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol",
+        "file": "../external/IMedianizer.sol",
+        "id": 6089,
+        "nodeType": "ImportDirective",
+        "scope": 6127,
+        "sourceUnit": 5966,
+        "src": "90:37:15",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6090,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 10508,
+              "src": "306:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$10508",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 6091,
+            "nodeType": "InheritanceSpecifier",
+            "src": "306:7:15"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6092,
+              "name": "IMedianizer",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 5965,
+              "src": "315:11:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IMedianizer_$5965",
+                "typeString": "contract IMedianizer"
+              }
+            },
+            "id": 6093,
+            "nodeType": "InheritanceSpecifier",
+            "src": "315:11:15"
+          }
+        ],
+        "contractDependencies": [
+          5965,
+          10508
+        ],
+        "contractKind": "contract",
+        "documentation": "@notice A mock implementation of a medianizer price oracle\n @dev This is used in the Keep testnets only. Mainnet uses the MakerDAO medianizer.",
+        "fullyImplemented": true,
+        "id": 6120,
+        "linearizedBaseContracts": [
+          6120,
+          5965,
+          10508
+        ],
+        "name": "MockMedianizer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 6095,
+            "name": "value",
+            "nodeType": "VariableDeclaration",
+            "scope": 6120,
+            "src": "333:21:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 6094,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "333:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 6098,
+              "nodeType": "Block",
+              "src": "382:7:15",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 6099,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6096,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "372:2:15"
+            },
+            "returnParameters": {
+              "id": 6097,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "382:0:15"
+            },
+            "scope": 6120,
+            "src": "361:28:15",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6106,
+              "nodeType": "Block",
+              "src": "463:29:15",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6104,
+                    "name": "value",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 6095,
+                    "src": "480:5:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 6103,
+                  "id": 6105,
+                  "nodeType": "Return",
+                  "src": "473:12:15"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6107,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "read",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6100,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "408:2:15"
+            },
+            "returnParameters": {
+              "id": 6103,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6102,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6107,
+                  "src": "450:7:15",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6101,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "450:7:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "449:9:15"
+            },
+            "scope": 6120,
+            "src": "395:97:15",
+            "stateMutability": "view",
+            "superFunction": 5964,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 6118,
+              "nodeType": "Block",
+              "src": "563:31:15",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6116,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6114,
+                      "name": "value",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6095,
+                      "src": "573:5:15",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 6115,
+                      "name": "_value",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6109,
+                      "src": "581:6:15",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "573:14:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 6117,
+                  "nodeType": "ExpressionStatement",
+                  "src": "573:14:15"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6119,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 6112,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 6111,
+                  "name": "onlyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 10441,
+                  "src": "549:9:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "549:9:15"
+              }
+            ],
+            "name": "setValue",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6110,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6109,
+                  "name": "_value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6119,
+                  "src": "516:14:15",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6108,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "516:7:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "515:16:15"
+            },
+            "returnParameters": {
+              "id": 6113,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "563:0:15"
+            },
+            "scope": 6120,
+            "src": "498:96:15",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6127,
+        "src": "279:317:15"
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6121,
+              "name": "MockMedianizer",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6120,
+              "src": "626:14:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockMedianizer_$6120",
+                "typeString": "contract MockMedianizer"
+              }
+            },
+            "id": 6122,
+            "nodeType": "InheritanceSpecifier",
+            "src": "626:14:15"
+          }
+        ],
+        "contractDependencies": [
+          5965,
+          6120,
+          10508
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 6123,
+        "linearizedBaseContracts": [
+          6123,
+          6120,
+          5965,
+          10508
+        ],
+        "name": "BTCUSDPriceFeed",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 6127,
+        "src": "598:46:15"
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6124,
+              "name": "MockMedianizer",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6120,
+              "src": "674:14:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockMedianizer_$6120",
+                "typeString": "contract MockMedianizer"
+              }
+            },
+            "id": 6125,
+            "nodeType": "InheritanceSpecifier",
+            "src": "674:14:15"
+          }
+        ],
+        "contractDependencies": [
+          5965,
+          6120,
+          10508
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 6126,
+        "linearizedBaseContracts": [
+          6126,
+          6120,
+          5965,
+          10508
+        ],
+        "name": "ETHUSDPriceFeed",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 6127,
+        "src": "646:46:15"
+      }
+    ],
+    "src": "0:693:15"
+  },
+  "legacyAST": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/price-feed/MockMedianizer.sol",
+    "exportedSymbols": {
+      "BTCUSDPriceFeed": [
+        6123
+      ],
+      "ETHUSDPriceFeed": [
+        6126
+      ],
+      "MockMedianizer": [
+        6120
+      ]
+    },
+    "id": 6127,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6087,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:15"
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 6088,
+        "nodeType": "ImportDirective",
+        "scope": 6127,
+        "sourceUnit": 10509,
+        "src": "26:63:15",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol",
+        "file": "../external/IMedianizer.sol",
+        "id": 6089,
+        "nodeType": "ImportDirective",
+        "scope": 6127,
+        "sourceUnit": 5966,
+        "src": "90:37:15",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6090,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 10508,
+              "src": "306:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$10508",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 6091,
+            "nodeType": "InheritanceSpecifier",
+            "src": "306:7:15"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6092,
+              "name": "IMedianizer",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 5965,
+              "src": "315:11:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IMedianizer_$5965",
+                "typeString": "contract IMedianizer"
+              }
+            },
+            "id": 6093,
+            "nodeType": "InheritanceSpecifier",
+            "src": "315:11:15"
+          }
+        ],
+        "contractDependencies": [
+          5965,
+          10508
+        ],
+        "contractKind": "contract",
+        "documentation": "@notice A mock implementation of a medianizer price oracle\n @dev This is used in the Keep testnets only. Mainnet uses the MakerDAO medianizer.",
+        "fullyImplemented": true,
+        "id": 6120,
+        "linearizedBaseContracts": [
+          6120,
+          5965,
+          10508
+        ],
+        "name": "MockMedianizer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 6095,
+            "name": "value",
+            "nodeType": "VariableDeclaration",
+            "scope": 6120,
+            "src": "333:21:15",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 6094,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "333:7:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 6098,
+              "nodeType": "Block",
+              "src": "382:7:15",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 6099,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6096,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "372:2:15"
+            },
+            "returnParameters": {
+              "id": 6097,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "382:0:15"
+            },
+            "scope": 6120,
+            "src": "361:28:15",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6106,
+              "nodeType": "Block",
+              "src": "463:29:15",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6104,
+                    "name": "value",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 6095,
+                    "src": "480:5:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 6103,
+                  "id": 6105,
+                  "nodeType": "Return",
+                  "src": "473:12:15"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6107,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "read",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6100,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "408:2:15"
+            },
+            "returnParameters": {
+              "id": 6103,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6102,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6107,
+                  "src": "450:7:15",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6101,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "450:7:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "449:9:15"
+            },
+            "scope": 6120,
+            "src": "395:97:15",
+            "stateMutability": "view",
+            "superFunction": 5964,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 6118,
+              "nodeType": "Block",
+              "src": "563:31:15",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6116,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6114,
+                      "name": "value",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6095,
+                      "src": "573:5:15",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 6115,
+                      "name": "_value",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6109,
+                      "src": "581:6:15",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "573:14:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 6117,
+                  "nodeType": "ExpressionStatement",
+                  "src": "573:14:15"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6119,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 6112,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 6111,
+                  "name": "onlyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 10441,
+                  "src": "549:9:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "549:9:15"
+              }
+            ],
+            "name": "setValue",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6110,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6109,
+                  "name": "_value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6119,
+                  "src": "516:14:15",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6108,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "516:7:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "515:16:15"
+            },
+            "returnParameters": {
+              "id": 6113,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "563:0:15"
+            },
+            "scope": 6120,
+            "src": "498:96:15",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6127,
+        "src": "279:317:15"
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6121,
+              "name": "MockMedianizer",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6120,
+              "src": "626:14:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockMedianizer_$6120",
+                "typeString": "contract MockMedianizer"
+              }
+            },
+            "id": 6122,
+            "nodeType": "InheritanceSpecifier",
+            "src": "626:14:15"
+          }
+        ],
+        "contractDependencies": [
+          5965,
+          6120,
+          10508
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 6123,
+        "linearizedBaseContracts": [
+          6123,
+          6120,
+          5965,
+          10508
+        ],
+        "name": "BTCUSDPriceFeed",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 6127,
+        "src": "598:46:15"
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6124,
+              "name": "MockMedianizer",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6120,
+              "src": "674:14:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockMedianizer_$6120",
+                "typeString": "contract MockMedianizer"
+              }
+            },
+            "id": 6125,
+            "nodeType": "InheritanceSpecifier",
+            "src": "674:14:15"
+          }
+        ],
+        "contractDependencies": [
+          5965,
+          6120,
+          10508
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 6126,
+        "linearizedBaseContracts": [
+          6126,
+          6120,
+          5965,
+          10508
+        ],
+        "name": "ETHUSDPriceFeed",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 6127,
+        "src": "646:46:15"
+      }
+    ],
+    "src": "0:693:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {
+    "3": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event",
+          "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+        }
+      },
+      "links": {},
+      "address": "0xe25166004E9DBB862e7798500899DD63BA7656dc",
+      "transactionHash": "0x5a8f5a2518d591d3d26148098753abd3d7d80327f15f4071e3ebb37618d59e55"
+    }
+  },
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-02-06T21:47:08.827Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "methods": {
+      "isOwner()": {
+        "details": "Returns true if the caller is the current owner."
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * > Note: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

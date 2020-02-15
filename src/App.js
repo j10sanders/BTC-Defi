@@ -20,8 +20,20 @@ import "./App.css";
 // import Filter from './components/Filter'
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
+import CreateDeposits from "./CreateDeposits.js";
 
-let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
+import HDWalletProvider from "@truffle/hdwallet-provider";
+
+import { useLotsAndDepositHandler, useBTCDepositListeners } from "./hooks";
+const mnemonic =
+  "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
+
+const provider = new HDWalletProvider(
+  mnemonic,
+  "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
+);
+
+// let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 
 // if (!process.env.REACT_APP_GRAPHQL_ENDPOINT) {
 //   throw new Error('REACT_APP_GRAPHQL_ENDPOINT environment variable not defined')
@@ -61,98 +73,9 @@ const App = () => {
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState();
-  useEffect(() => {
-    const getLots = async () => {
-      const web3 = new Web3(fm.getProvider());
-      const [defaultAccount] = await web3.eth.getAccounts();
-      console.log(defaultAccount);
-      web3.eth.defaultAccount = defaultAccount;
+  useLotsAndDepositHandler(setError, setLots, setTbtcHandler);
+  useBTCDepositListeners(depositHandler, setSubmitting, submitting);
 
-      try {
-        await web3.currentProvider.enable();
-      } catch (err) {
-        setError(err.message);
-      }
-      const tbtc = await TBTC.withConfig({
-        web3,
-        bitcoinNetwork: "testnet",
-        electrum: {
-          testnet: {
-            server: "electrumx-server.test.tbtc.network",
-            port: 50002,
-            protocol: "ssl"
-          },
-          testnetPublic: {
-            server: "testnet1.bauerj.eu",
-            port: 50002,
-            protocol: "ssl"
-          },
-          testnetWS: {
-            server: "electrumx-server.test.tbtc.network",
-            port: 50003,
-            protocol: "ws"
-          }
-        }
-      });
-      const lotSizes = await tbtc.Deposit.availableSatoshiLotSizes();
-      setLots(lotSizes);
-      setTbtcHandler(tbtc);
-    };
-
-    getLots();
-  }, []);
-
-  useEffect(() => {
-    const registerBtcTxListener = () => {
-      setSubmitting(true);
-      depositHandler.bitcoinAddress.then(async address => {
-        const expectedValue = (
-          await depositHandler.getSatoshiLotSize()
-        ).toNumber();
-        console.log(
-          `Monitoring Bitcoin for transaction to address ${address}...`
-        );
-        const tx = await BitcoinHelpers.Transaction.findOrWaitFor(
-          address,
-          expectedValue
-        );
-
-        const requiredConfirmations = (
-          await depositHandler.factory.constantsContract.getTxProofDifficultyFactor()
-        ).toNumber();
-
-        console.log(
-          `Waiting for ${requiredConfirmations} confirmations for ` +
-            `Bitcoin transaction ${tx.transactionID}...`
-        );
-        await BitcoinHelpers.Transaction.waitForConfirmations(
-          tx,
-          requiredConfirmations
-        );
-
-        console.log(
-          `Submitting funding proof to deposit ${depositHandler.address} for ` +
-            `Bitcoin transaction ${tx.transactionID}...`
-        );
-        const proofArgs = await depositHandler.constructFundingProof(
-          tx,
-          requiredConfirmations
-        );
-        console.log("just constructed proof args", proofArgs);
-        proofArgs.push({
-          from: depositHandler.factory.config.web3.eth.defaultAccount
-        });
-        depositHandler.contract.provideBTCFundingProof.apply(
-          depositHandler.contract,
-          proofArgs
-        );
-        console.log("submitted the proof");
-      });
-    };
-    if (depositHandler && !submitting) registerBtcTxListener();
-  }, [depositHandler, submitting, setSubmitting]);
-
-  console.log(depositHandler);
   return (
     <div>
       {lots.map((lot, i) => {

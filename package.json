@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@keep-network/tbtc.js": "^0.6.6",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "apollo-boost": "^0.1.28",

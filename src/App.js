@@ -25,6 +25,7 @@ import {
 
 import { BigNumber } from "bignumber.js";
 import "./App.css";
+import convertToCTBTC from './tbtc.js/ctbtc.js'
 // import Header from './components/Header'
 // import Error from './components/Error'
 // import Gravatars from './components/Gravatars'
@@ -123,48 +124,6 @@ const sendWeb3Transaction = () => {
     to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
     value
   });
-};
-
-const convertToCTBTC = (ethWalletAddress, tbtcValue) => {
-  const contractAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
-  //grab ABI from ctbtc.json
-  var fs = require("fs");
-  var jsonFile = "./ctbtc.json";
-  var parsed = JSON.parse(fs.readFileSync(jsonFile));
-  var abi = parsed.abi;
-
-  const compoundcTBTCContract = new Web3.eth.Contract(abi, contractAddress);
-
-  console.log("Sending ETH to the Compound Protocol...");
-  compoundcTBTCContract.methods
-    .mint()
-    .send({
-      from: ethWalletAddress,
-      gasLimit: Web3.utils.toHex(150000), // posted at compound.finance/developers#gas-costs
-      gasPrice: Web3.utils.toHex(20000000000), // use ethgasstation.info (mainnet only)
-      value: Web3.utils.toHex(Web3.utils.toWei(tbtcValue, "ether"))
-    })
-    .then(result => {
-      console.log('cTBTC "Mint" operation successful.');
-      return compoundcTBTCContract.methods
-        .balanceOfUnderlying(ethWalletAddress)
-        .call();
-    })
-    .then(balanceOfUnderlying => {
-      balanceOfUnderlying = Web3.utils.fromWei(balanceOfUnderlying).toString();
-      console.log(
-        "tBTC supplied to the Compound Protocol:",
-        balanceOfUnderlying
-      );
-      return compoundcTBTCContract.methods.balanceOf(ethWalletAddress).call();
-    })
-    .then(cTokenBalance => {
-      cTokenBalance = (cTokenBalance / 1e8).toString();
-      console.log("My wallet's cTBTC Token Balance:", cTokenBalance);
-    })
-    .catch(error => {
-      console.error(error);
-    });
 };
 
 const App = () => {

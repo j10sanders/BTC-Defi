@@ -1,41 +1,58 @@
 import React, { Component } from 'react'
-import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
-import { ApolloProvider, Query } from 'react-apollo'
+// import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
+// import { ApolloProvider, Query } from 'react-apollo'
 import {
-  Grid,
-  LinearProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  // Grid,
+  // LinearProgress,
+  // Dialog,
+  // DialogActions,
+  // DialogContent,
+  // DialogContentText,
+  // DialogTitle,
   Button,
 } from '@material-ui/core'
 import './App.css'
-import Header from './components/Header'
-import Error from './components/Error'
-import Gravatars from './components/Gravatars'
-import Filter from './components/Filter'
+// import Header from './components/Header'
+// import Error from './components/Error'
+// import Gravatars from './components/Gravatars'
+// import Filter from './components/Filter'
+import Fortmatic from 'fortmatic'
+import Web3 from 'web3'
 
-if (!process.env.REACT_APP_GRAPHQL_ENDPOINT) {
-  throw new Error('REACT_APP_GRAPHQL_ENDPOINT environment variable not defined')
+let fm = new Fortmatic('pk_test_001FD198F278ECC9', 'ropsten');
+window.web3 = new Web3(fm.getProvider());
+
+
+// if (!process.env.REACT_APP_GRAPHQL_ENDPOINT) {
+//   throw new Error('REACT_APP_GRAPHQL_ENDPOINT environment variable not defined')
+// }
+
+// const client = new ApolloClient({
+//   uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
+//   cache: new InMemoryCache(),
+// })
+
+// const GRAVATARS_QUERY = gql`
+//   query gravatars($where: Gravatar_filter!, $orderBy: Gravatar_orderBy!) {
+//     gravatars(first: 100, where: $where, orderBy: $orderBy, orderDirection: asc) {
+//       id
+//       owner
+//       displayName
+//       imageUrl
+//     }
+//   }
+// `
+
+const sendWeb3Transaction = ()=> {
+  const { web3 } = window
+  const value = web3.utils.toWei('0.01', 'ether')
+    web3.eth.sendTransaction({
+    // From address will automatically be replaced by the address of current user
+    from: '0x0Cd462db67F44191Caf3756f033A564A0d37cf08',
+    to: '0x178411f618bba04DFD715deffBdD9B6b13B958c4',
+    value
+  });
 }
-
-const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
-  cache: new InMemoryCache(),
-})
-
-const GRAVATARS_QUERY = gql`
-  query gravatars($where: Gravatar_filter!, $orderBy: Gravatar_orderBy!) {
-    gravatars(first: 100, where: $where, orderBy: $orderBy, orderDirection: asc) {
-      id
-      owner
-      displayName
-      imageUrl
-    }
-  }
-`
 
 class App extends Component {
   constructor(props) {
@@ -48,21 +65,24 @@ class App extends Component {
     }
   }
 
-  toggleHelpDialog = () => {
-    this.setState(state => ({ ...state, showHelpDialog: !state.showHelpDialog }))
-  }
+  // toggleHelpDialog = () => {
+  //   this.setState(state => ({ ...state, showHelpDialog: !state.showHelpDialog }))
+  // }
 
-  gotoQuickStartGuide = () => {
-    window.location.href = 'https://thegraph.com/docs/quick-start'
-  }
+  // gotoQuickStartGuide = () => {
+  //   window.location.href = 'https://thegraph.com/docs/quick-start'
+  // }
 
   render() {
-    const { withImage, withName, orderBy, showHelpDialog } = this.state
+    // const { withImage, withName, orderBy, showHelpDialog } = this.state
 
     return (
-      <ApolloProvider client={client}>
+      // <ApolloProvider client={client}>
+      <div>
+        <Button onClick={() => sendWeb3Transaction()}>Test</Button>
         <div className="App">
-          <Grid container direction="column">
+          BCTCBTtcTBTC
+          {/* <Grid container direction="column">
             <Header onHelp={this.toggleHelpDialog} />
             <Filter
               orderBy={orderBy}
@@ -122,9 +142,10 @@ class App extends Component {
                 Yes, pease
               </Button>
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
         </div>
-      </ApolloProvider>
+        </div>
+      // </ApolloProvider>
     )
   }
 }

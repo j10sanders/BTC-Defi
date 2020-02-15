@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import TBTC from "./tbtc.js/TBTC.js";
-import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
+import TBTC from "../tbtc.js/TBTC.js";
+import BitcoinHelpers from "../tbtc.js/BitcoinHelpers";
 
 import Fortmatic from "fortmatic";
 import Web3 from "web3";

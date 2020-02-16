@@ -414,6 +414,24 @@ const App = () => {
                 />
               </UnderHeader>
             )}
+            
+            <StepComponent
+              style={{ marginTop: "55px " }}
+              image={Two}
+              stepDone={false}
+              headerText="Send BTC"
+              loading={false}
+            />
+            {true && (
+              <UnderHeader>
+                <QR
+                  shouldDisplay={depositHandler && depositHandler.address}
+                  depositHandler={depositHandler}
+                />
+              </UnderHeader>
+            )}
+
+
             <div>
               <h1> {`Current Address: ${currentAddress}`}</h1>
               <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>

@@ -19,6 +19,7 @@ import {
 } from "grommet";
 // import { grommet } from "grommet/themes";
 import QR from "./components/QRCode";
+import { determineHelperText } from "./utils";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
@@ -262,6 +263,10 @@ const App = () => {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [step1SigsRequired, setStep1SigsRequired] = useState(2);
+  const [
+    submittedInitialDepositAmount,
+    setSubmittedInitialDepositAmount
+  ] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
@@ -286,6 +291,8 @@ const App = () => {
     setStep,
     setLoading
   );
+
+  console.log("step1SigsRequired", step1SigsRequired);
 
   // useEffect(() => {
   //   if (step === 0 && !depositHandler){
@@ -319,7 +326,10 @@ const App = () => {
             <StepComponent
               image={One}
               stepDone={step > 0}
-              headerText="Select deposit amount"
+              headerText={determineHelperText(
+                step1SigsRequired,
+                submittedInitialDepositAmount
+              )}
               loading={step === 0 && loading}
             />
             <UnderHeader>
@@ -357,8 +367,10 @@ const App = () => {
                 }
                 onPress={async () => {
                   setLoading(true);
+                  setSubmittedInitialDepositAmount(true);
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
-                    depositSatoshiAmount
+                    depositSatoshiAmount,
+                    setStep1SigsRequired
                   );
                   console.log("got deposit");
                   tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);

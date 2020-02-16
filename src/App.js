@@ -1,10 +1,12 @@
 import React, { Component, useState, useEffect } from "react";
+import { CircularProgress } from "@material-ui/core";
 import TBTC from "./tbtc.js/TBTC.js";
 import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
 import Dots from "./images/dots.svg";
 import One from "./images/one.svg";
 import Two from "./images/two.svg";
+import Done from "./images/done.svg";
 import {
   Grommet,
   Button,
@@ -16,8 +18,9 @@ import {
   RadioButton,
   TextInput
 } from "grommet";
-import { grommet } from "grommet/themes";
+// import { grommet } from "grommet/themes";
 import QR from "./components/QRCode";
+import { determineHelperText } from "./utils";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
@@ -87,7 +90,7 @@ const StyledDots = styled.img`
 `;
 
 const StyledNumber = styled.img`
-  margin-top: -11px;
+  /* margin-top: -11px; */
   padding-right: 20px;
 `;
 
@@ -109,13 +112,13 @@ const UnderHeader = styled.div`
   margin-top: 10px;
   padding-left: 68px;
 `;
-const mnemonic =
-  "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
+// const mnemonic =
+//   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
 
-const provider = new HDWalletProvider(
-  mnemonic,
-  "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
-);
+// const provider = new HDWalletProvider(
+//   mnemonic,
+//   "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
+// );
 
 // let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 
@@ -159,28 +162,16 @@ const convertTbtcToCbtc = async (currentAddress, mintAmount) => {
   //grab ABI from ctbtc.json
   const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
   window.ctoken = cTBTCContract;
-  const numCtbtcToMint = web3.utils.toWei(".1", "ether");
-  const [currentAccount] = await web3.eth.getAccounts();
-  console.log(currentAccount, cTBTCContract);
-
-  // let balance = await cTBTCContract.methods
-  //   .balanceOfUnderlying(currentAccount)
-  //   .call();
-  // console.log("balances", balance);
-
+  const numCtbtcToMint = web3.utils.toWei(".1", "ether"); //mint amount should be first arg
   let receipt;
-  // try {
-  //   receipt = await cTBTCContract.methods.mint(numCtbtcToMint).send({
-  //     from: currentAccount
-  //   });
-  //   console.log("receipt", receipt);
-  //   let balance = await cTBTCContract.methods
-  //     .balanceOfUnderlying(currentAccount)
-  //     .call();
-  //   console.log("balances", balance);
-  // } catch (err) {
-  //   console.error("Err minting", err);
-  // }
+  try {
+    receipt = await cTBTCContract.methods.mint(numCtbtcToMint).send({
+      from: currentAddress
+    });
+    console.log("receipt", receipt);
+  } catch (err) {
+    console.error("Err minting", err);
+  }
 };
 
 // async function getMarkets() {
@@ -211,38 +202,58 @@ const convertTbtcToCbtc = async (currentAddress, mintAmount) => {
 //   );
 //   const [currentAccount] = await web3.eth.getAccounts();
 
-//   const exchangeContractInstance = new web3.eth.Contract(
-//     exchangeABI,
-//     exchangeAddress
-//   );
-//   await exchangeContractInstance.methods
-//     .ethToTokenSwapInput(
-//       formattedTrade.methodArguments[0],
-//       formattedTrade.methodArguments[1]
-//     )
-//     .send({ value: formattedTrade.value, from: currentAccount }, function(
-//       receipt
-//     ) {
-//       console.log(receipt);
-//     });
-// }
-// const tradeDetails: TradeDetails = getTradeDetails(TRADE_EXACT.OUTPUT, tradeAmount, marketDetails)
+const MobileCol = styled(Col)`
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+}
+`;
 
-// getMarkets();
-const sendWeb3Transaction = () => {
-  const { web3 } = window;
-  const value = web3.utils.toWei("0.01", "ether");
-  web3.eth.sendTransaction({
-    // From address will automatically be replaced by the address of current user
-    from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
-    to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
-    value
-  });
-};
+// const sendWeb3Transaction = () => {
+//   const { web3 } = window;
+//   const value = web3.utils.toWei("0.01", "ether");
+//   web3.eth.sendTransaction({
+//     // From address will automatically be replaced by the address of current user
+//     from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
+//     to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
+//     value
+//   });
+// };
 
 const toBtcSize = largeNum => largeNum / 100000000;
 
+const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
+  console.log(image, "image");
+  return (
+    <div style={{ display: "flex", marginRight: "10px", ...style }}>
+      <div style={{ display: "inline" }}>
+        <StyledNumber src={!stepDone ? image : Done} alt="first step" />
+        {loading && (
+          <CircularProgress
+            size="48px"
+            style={{
+              marginLeft: "-68px",
+              marginTop: "-11px",
+              marginRight: "10px"
+            }}
+          />
+        )}
+      </div>
+      <div style={{ marginTop: "11px", display: "inline" }}>
+        <HeaderText>{headerText}</HeaderText>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
+  const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [step1SigsRequired, setStep1SigsRequired] = useState(2);
+  const [
+    submittedInitialDepositAmount,
+    setSubmittedInitialDepositAmount
+  ] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [enabled, setEnabled] = useState([false]);
@@ -251,17 +262,25 @@ const App = () => {
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const [mintAmount, setMintAmount] = useState("");
-  const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
   const { currentAddress, balances } = getAddressAndBalances();
-  console.log("GOT STUFF", currentAddress, balances);
+  const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
-  useBTCDepositListeners(depositHandler, setSubmitting, submitting);
+  useBTCDepositListeners(
+    depositHandler,
+    setSubmitting,
+    submitting,
+    setStep,
+    setLoading
+  );
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,
     submitting,
     setSubmitting,
-    setDepositHandler
+    setDepositHandler,
+    setStep,
+    setLoading,
+    setStep1SigsRequired
   );
   // useEffect(async ()=>{
   //   try {
@@ -276,29 +295,47 @@ const App = () => {
   //   }
   // }, [enabled])
 
+  console.log("step1SigsRequired", step1SigsRequired);
+
+  // useEffect(() => {
+  //   if (step === 0 && !depositHandler){
+  //     setStep(1)
+  //   }
+  // }, [step, depositHandler])
+
   return (
     <Grommet theme={myTheme}>
       <Header
         pad="small"
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
-        {/* <Box direction="row" gap="medium" > */}
         <StyledHeading size="small" color="#1A5AFE">
           Convert BTC to TBTC
         </StyledHeading>
-        {/* <Anchor label="Profile" href="#" /> */}
-        {/* </Box> */}
       </Header>
+      <button
+        onClick={async () => {
+          await tbtcDepositSpace.public.remove("tbtc-deposit");
+        }}
+      >
+        Erase 3Box
+      </button>
       <Container style={{ paddingTop: "40px" }}>
         <Row>
-          <Col sm={2} xs={0}>
+          <MobileCol md={2} sm={0}>
             <StyledDots src={Dots} alt="dots for fun" />
-          </Col>
-          <Col sm={10} xs={12}>
-            <div>
-              <StyledNumber src={One} alt="first step" />
-              <HeaderText>Select deposit amount</HeaderText>
-            </div>
+          </MobileCol>
+          <Col md={10} sm={12}>
+            <StepComponent
+              image={One}
+              stepDone={step > 0}
+              headerText={determineHelperText(
+                step1SigsRequired,
+                submittedInitialDepositAmount,
+                pendingDepositAddress
+              )}
+              loading={step === 0 && loading}
+            />
             <UnderHeader>
               {lots.map((lot, i) => {
                 return (
@@ -324,11 +361,20 @@ const App = () => {
               <AwesomeButton
                 style={{
                   marginTop: "14px"
+                  // padding: "20px"
                 }}
-                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
-                onClick={async () => {
+                disabled={
+                  !depositSatoshiAmount ||
+                  depositSatoshiAmount.lte(0) ||
+                  step !== 0 ||
+                  loading
+                }
+                onPress={async () => {
+                  setLoading(true);
+                  setSubmittedInitialDepositAmount(true);
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
-                    depositSatoshiAmount
+                    depositSatoshiAmount,
+                    setStep1SigsRequired
                   );
                   console.log("got deposit");
                   tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);
@@ -341,10 +387,13 @@ const App = () => {
                 } BTC Deposit`}
               </AwesomeButton>
             </UnderHeader>
-            <div style={{ marginTop: "55px" }}>
-              <StyledNumber src={Two} alt="first step" />
-              <HeaderText>Send BTC</HeaderText>
-            </div>
+            <StepComponent
+              style={{ marginTop: "55px " }}
+              image={Two}
+              stepDone={step > 1}
+              headerText="Send BTC"
+              loading={false}
+            />
             <UnderHeader></UnderHeader>
             <QR
               shouldDisplay={depositHandler && depositHandler.address}

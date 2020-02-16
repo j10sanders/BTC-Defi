@@ -158,7 +158,7 @@ const approveCtbcContract = async currentAddress => {
     console.error("Error approving contract", err);
   }
 };
-const convertTbtcToCbtc = async (currentAddress, mintAmount) => {
+const convertTbtcToCbtc = async (currentAddress, inputAmount) => {
   //grab ABI from ctbtc.json
   const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
   window.ctoken = cTBTCContract;
@@ -261,7 +261,7 @@ const App = () => {
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
-  const [mintAmount, setMintAmount] = useState("");
+  const [inputAmount, setInputAmount] = useState("");
   const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
@@ -413,12 +413,12 @@ const App = () => {
               <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
             </div>
             <TextInput
-              label="Mint Compound BTC"
-              value={mintAmount}
-              onChange={event => setMintAmount(event.target.value)}
+              label="Input amount"
+              value={inputAmount}
+              onChange={event => setInputAmount(event.target.value)}
             />
             <AwesomeButton
-              onPress={convertTbtcToCbtc(currentAddress, mintAmount)}
+              onPress={convertTbtcToCbtc(currentAddress, inputAmount)}
             >
               Mint cTBtc
             </AwesomeButton>

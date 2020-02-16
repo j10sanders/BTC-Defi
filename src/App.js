@@ -15,7 +15,8 @@ import {
   Anchor,
   Heading,
   Header,
-  RadioButton
+  RadioButton,
+  TextInput
 } from "grommet";
 // import { grommet } from "grommet/themes";
 import QR from "./components/QRCode";
@@ -64,7 +65,8 @@ import {
   useLotsAndTbtcHandler,
   useBTCDepositListeners,
   usePendingDeposit,
-  use3Box
+  use3Box,
+  getAddressAndBalances
 } from "./hooks";
 
 const web3 = new Web3(window.ethereum);
@@ -145,43 +147,28 @@ const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
 const cbtcTokenAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
 var ctbtcABI = require("./ctbtcABI.json");
 
-const approveCtbcContract = async () => {
+const approveCtbcContract = async currentAddress => {
   const tbtcTokenContract = new web3.eth.Contract(ctbtcABI, tbtcTokenAddress);
-  const [currentAccount] = await web3.eth.getAccounts();
   let receipt;
   try {
     receipt = await tbtcTokenContract.methods
       .approve(cbtcTokenAddress, web3.utils.toBN(10e18))
-      .send({ from: currentAccount });
+      .send({ from: currentAddress });
   } catch (err) {
     console.error("Error approving contract", err);
   }
 };
-const convertToCtbtc = async tbtcAmount => {
+const convertTbtcToCbtc = async (currentAddress, mintAmount) => {
   //grab ABI from ctbtc.json
-  const compoundcTBTCContract = new web3.eth.Contract(
-    ctbtcABI,
-    cbtcTokenAddress
-  );
-  window.ctoken = compoundcTBTCContract;
-  const numCtbtcToMint = web3.utils.toWei(".1", "ether");
-  const [currentAccount] = await web3.eth.getAccounts();
-
-  let balance = await compoundcTBTCContract.methods
-    .balanceOfUnderlying(currentAccount)
-    .call();
-  console.log("balances", balance);
-
+  const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
+  window.ctoken = cTBTCContract;
+  const numCtbtcToMint = web3.utils.toWei(".1", "ether"); //mint amount should be first arg
   let receipt;
   try {
-    receipt = await compoundcTBTCContract.methods.mint(numCtbtcToMint).send({
-      from: currentAccount
+    receipt = await cTBTCContract.methods.mint(numCtbtcToMint).send({
+      from: currentAddress
     });
     console.log("receipt", receipt);
-    let balance = await compoundcTBTCContract.methods
-      .balanceOfUnderlying(currentAccount)
-      .call();
-    console.log("balances", balance);
   } catch (err) {
     console.error("Err minting", err);
   }
@@ -270,10 +257,13 @@ const App = () => {
   const [txInFlight, setTxInFlight] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
+  const [enabled, setEnabled] = useState([false]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
+  const [mintAmount, setMintAmount] = useState("");
+  const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(
@@ -295,6 +285,18 @@ const App = () => {
     setStep1SigsRequired,
     setTxInFlight
   );
+  // useEffect(async ()=>{
+  //   try {
+  //     if(window.)
+  //     // Request account access
+  //     await web3.ethereum.enable();
+  //     setEnabled(true)
+
+  //   } catch (error) {
+  //     // User denied account access...
+  //     console.error("User denied account access")
+  //   }
+  // }, [enabled])
 
   // useEffect(() => {
   //   if (step === 0 && !depositHandler){
@@ -393,8 +395,6 @@ const App = () => {
               headerText="Send BTC"
               loading={false}
             />
-            <button onClick={approveCtbcContract}>Approve</button>
-            <button onClick={convertToCtbtc}>Mint ctBtc</button>
             {!txInFlight && (
               <UnderHeader>
                 <QR
@@ -403,6 +403,29 @@ const App = () => {
                 />
               </UnderHeader>
             )}
+            <div>
+              <AwesomeButton
+                onPress={approveCtbcContract(currentAddress)}
+                style={{
+                  marginTop: "14px"
+                }}
+              >
+                Approve
+              </AwesomeButton>
+              <h1> {`Current Address: ${currentAddress}`}</h1>
+              <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
+              <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
+            </div>
+            <TextInput
+              label="Mint Compound BTC"
+              value={mintAmount}
+              onChange={event => setMintAmount(event.target.value)}
+            />
+            <AwesomeButton
+              onPress={convertTbtcToCbtc(currentAddress, mintAmount)}
+            >
+              Mint cTBtc
+            </AwesomeButton>
           </Col>
         </Row>
       </Container>

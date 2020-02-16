@@ -186,10 +186,12 @@ export const useLotsAndTbtcHandler = (setError, setLots, setTbtcHandler) =>
 export const useBTCDepositListeners = (
   depositHandler,
   setSubmitting,
-  submitting
+  submitting,
+  setStep,
+  setLoading,
 ) =>
   useEffect(
     () =>
-      registerBTCDepositListeners(depositHandler, setSubmitting, submitting),
+      registerBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading),
     [depositHandler, submitting, setSubmitting]
   );

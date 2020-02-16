@@ -1,0 +1,474 @@
+{
+  "contractName": "ITBTCSystem",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "fetchBitcoinPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "fetchRelayCurrentDifficulty",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "fetchRelayPreviousDifficulty",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"fetchRelayPreviousDifficulty\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"fetchBitcoinPrice\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"fetchRelayCurrentDifficulty\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{},\"title\":\"Keep interface\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/ITBTCSystem.sol\":\"ITBTCSystem\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/ITBTCSystem.sol\":{\"keccak256\":\"0x719e12cacd8ff150ea230a0ed7bc5fe5e10e0d2f5209fe8f89f6eda4a82f0f19\",\"urls\":[\"bzzr://948fc9fb3957a059a6fbec1f65c0a67cf503054ceecb0d6d07a369f451d0b7d0\",\"dweb:/ipfs/QmNNdMkUJXp48PCo2LKuQpa95LoPD5hc5wThLdWnVf9RZi\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.10;\n\n/**\n * @title Keep interface\n */\n\ninterface ITBTCSystem {\n\n    // expected behavior:\n    // return the price of 1 sat in wei\n    // these are the native units of the deposit contract\n    function fetchBitcoinPrice() external view returns (uint256);\n\n    // passthrough requests for the oracle\n    function fetchRelayCurrentDifficulty() external view returns (uint256);\n    function fetchRelayPreviousDifficulty() external view returns (uint256);\n}\n",
+  "sourcePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/ITBTCSystem.sol",
+  "ast": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/ITBTCSystem.sol",
+    "exportedSymbols": {
+      "ITBTCSystem": [
+        5991
+      ]
+    },
+    "id": 5992,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5975,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:13"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Keep interface",
+        "fullyImplemented": false,
+        "id": 5991,
+        "linearizedBaseContracts": [
+          5991
+        ],
+        "name": "ITBTCSystem",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 5980,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fetchBitcoinPrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5976,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "239:2:13"
+            },
+            "returnParameters": {
+              "id": 5979,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5978,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5980,
+                  "src": "265:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5977,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "265:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "264:9:13"
+            },
+            "scope": 5991,
+            "src": "213:61:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 5985,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fetchRelayCurrentDifficulty",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5981,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "359:2:13"
+            },
+            "returnParameters": {
+              "id": 5984,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5983,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5985,
+                  "src": "385:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5982,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "385:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "384:9:13"
+            },
+            "scope": 5991,
+            "src": "323:71:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 5990,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fetchRelayPreviousDifficulty",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5986,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "436:2:13"
+            },
+            "returnParameters": {
+              "id": 5989,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5988,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5990,
+                  "src": "462:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5987,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "462:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "461:9:13"
+            },
+            "scope": 5991,
+            "src": "399:72:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5992,
+        "src": "60:413:13"
+      }
+    ],
+    "src": "0:474:13"
+  },
+  "legacyAST": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/interfaces/ITBTCSystem.sol",
+    "exportedSymbols": {
+      "ITBTCSystem": [
+        5991
+      ]
+    },
+    "id": 5992,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5975,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:13"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Keep interface",
+        "fullyImplemented": false,
+        "id": 5991,
+        "linearizedBaseContracts": [
+          5991
+        ],
+        "name": "ITBTCSystem",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 5980,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fetchBitcoinPrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5976,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "239:2:13"
+            },
+            "returnParameters": {
+              "id": 5979,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5978,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5980,
+                  "src": "265:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5977,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "265:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "264:9:13"
+            },
+            "scope": 5991,
+            "src": "213:61:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 5985,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fetchRelayCurrentDifficulty",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5981,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "359:2:13"
+            },
+            "returnParameters": {
+              "id": 5984,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5983,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5985,
+                  "src": "385:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5982,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "385:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "384:9:13"
+            },
+            "scope": 5991,
+            "src": "323:71:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 5990,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fetchRelayPreviousDifficulty",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5986,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "436:2:13"
+            },
+            "returnParameters": {
+              "id": 5989,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5988,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5990,
+                  "src": "462:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5987,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "462:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "461:9:13"
+            },
+            "scope": 5991,
+            "src": "399:72:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5992,
+        "src": "60:413:13"
+      }
+    ],
+    "src": "0:474:13"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-02-06T21:33:55.718Z",
+  "devdoc": {
+    "methods": {},
+    "title": "Keep interface"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "contractName": "IKeepRegistry",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_keepType",
+          "type": "string"
+        }
+      ],
+      "name": "getVendor",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"_keepType\",\"type\":\"string\"}],\"name\":\"getVendor\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"getVendor(string)\":{\"params\":{\"_keepType\":\"Keep type.\"},\"return\":\"Keep vendor contract address.\"}},\"title\":\"Keep Registry\"},\"userdoc\":{\"methods\":{\"getVendor(string)\":{\"notice\":\"Get a keep vendor contract address for a keep type.\"}},\"notice\":\"Contract reflecting a keeps registry.\"}},\"settings\":{\"compilationTarget\":{\"@keep-network/keep-ecdsa/contracts/api/IKeepRegistry.sol\":\"IKeepRegistry\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@keep-network/keep-ecdsa/contracts/api/IKeepRegistry.sol\":{\"keccak256\":\"0x1af7dbd5cb32e51cf01916f3c30997741db9bb913151f6a1f3d99a537f1063d7\",\"urls\":[\"bzzr://d8399d677c36ca964d1d985fbc4773f8ec0c35e18e8dcf1f296cae7145f33562\",\"dweb:/ipfs/QmTFe1HXJRB5VkURRbMkts13D6m2YNfLWbopTwGq2fZhTr\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.4;\n\n/// @title Keep Registry\n/// @notice Contract reflecting a keeps registry.\ncontract IKeepRegistry {\n    /// @notice Get a keep vendor contract address for a keep type.\n    /// @param _keepType Keep type.\n    /// @return Keep vendor contract address.\n    function getVendor(string calldata _keepType) external view returns (address);\n}\n",
+  "sourcePath": "@keep-network/keep-ecdsa/contracts/api/IKeepRegistry.sol",
+  "ast": {
+    "absolutePath": "@keep-network/keep-ecdsa/contracts/api/IKeepRegistry.sol",
+    "exportedSymbols": {
+      "IKeepRegistry": [
+        7359
+      ]
+    },
+    "id": 7360,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 7351,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:27"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Keep Registry\n @notice Contract reflecting a keeps registry.",
+        "fullyImplemented": false,
+        "id": 7359,
+        "linearizedBaseContracts": [
+          7359
+        ],
+        "name": "IKeepRegistry",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Get a keep vendor contract address for a keep type.\n @param _keepType Keep type.\n @return Keep vendor contract address.",
+            "id": 7358,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getVendor",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 7354,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7353,
+                  "name": "_keepType",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7358,
+                  "src": "298:25:27",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 7352,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "298:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "297:27:27"
+            },
+            "returnParameters": {
+              "id": 7357,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7356,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7358,
+                  "src": "348:7:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7355,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "348:7:27",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "347:9:27"
+            },
+            "scope": 7359,
+            "src": "279:78:27",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7360,
+        "src": "100:259:27"
+      }
+    ],
+    "src": "0:360:27"
+  },
+  "legacyAST": {
+    "absolutePath": "@keep-network/keep-ecdsa/contracts/api/IKeepRegistry.sol",
+    "exportedSymbols": {
+      "IKeepRegistry": [
+        7359
+      ]
+    },
+    "id": 7360,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 7351,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:27"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Keep Registry\n @notice Contract reflecting a keeps registry.",
+        "fullyImplemented": false,
+        "id": 7359,
+        "linearizedBaseContracts": [
+          7359
+        ],
+        "name": "IKeepRegistry",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Get a keep vendor contract address for a keep type.\n @param _keepType Keep type.\n @return Keep vendor contract address.",
+            "id": 7358,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getVendor",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 7354,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7353,
+                  "name": "_keepType",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7358,
+                  "src": "298:25:27",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 7352,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "298:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "297:27:27"
+            },
+            "returnParameters": {
+              "id": 7357,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7356,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7358,
+                  "src": "348:7:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7355,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "348:7:27",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "347:9:27"
+            },
+            "scope": 7359,
+            "src": "279:78:27",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7360,
+        "src": "100:259:27"
+      }
+    ],
+    "src": "0:360:27"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-02-06T21:33:55.740Z",
+  "devdoc": {
+    "methods": {
+      "getVendor(string)": {
+        "params": {
+          "_keepType": "Keep type."
+        },
+        "return": "Keep vendor contract address."
+      }
+    },
+    "title": "Keep Registry"
+  },
+  "userdoc": {
+    "methods": {
+      "getVendor(string)": {
+        "notice": "Get a keep vendor contract address for a keep type."
+      }
+    },
+    "notice": "Contract reflecting a keeps registry."
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "contractName": "IMedianizer",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "read",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"read\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Based off the MakerDAO medianizer (https://github.com/makerdao/median)\",\"methods\":{\"read()\":{\"details\":\"May revert if caller not whitelisted.\",\"return\":\"Price (USD) with 18 decimal places.\"}}},\"userdoc\":{\"methods\":{\"read()\":{\"notice\":\"Get the current price.\"}},\"notice\":\"A medianizer price feed.\"}},\"settings\":{\"compilationTarget\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol\":\"IMedianizer\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol\":{\"keccak256\":\"0x353200d331fd2ce758760c5ea5c7f6f8c27d02b3ae308e5190adb1d2a8429a1f\",\"urls\":[\"bzzr://d9b79c4eeaca0143ae0efc1cc50e3eb9f49db05e9ae599c230548509fe0681e8\",\"dweb:/ipfs/QmYQwScbxP3SPJibSjZyVVsQ63w3uBrj7LnfXFDH4UqYUH\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.10;\n\n/// @notice A medianizer price feed.\n/// @dev Based off the MakerDAO medianizer (https://github.com/makerdao/median)\ninterface IMedianizer {\n    /// @notice Get the current price.\n    /// @dev May revert if caller not whitelisted.\n    /// @return Price (USD) with 18 decimal places.\n    function read() external view returns (uint256);\n}",
+  "sourcePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol",
+  "ast": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol",
+    "exportedSymbols": {
+      "IMedianizer": [
+        5965
+      ]
+    },
+    "id": 5966,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5959,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:11"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@notice A medianizer price feed.\n @dev Based off the MakerDAO medianizer (https://github.com/makerdao/median)",
+        "fullyImplemented": false,
+        "id": 5965,
+        "linearizedBaseContracts": [
+          5965
+        ],
+        "name": "IMedianizer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Get the current price.\n @dev May revert if caller not whitelisted.\n @return Price (USD) with 18 decimal places.",
+            "id": 5964,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "read",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5960,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "326:2:11"
+            },
+            "returnParameters": {
+              "id": 5963,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5962,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5964,
+                  "src": "352:7:11",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5961,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "352:7:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "351:9:11"
+            },
+            "scope": 5965,
+            "src": "313:48:11",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5966,
+        "src": "143:220:11"
+      }
+    ],
+    "src": "0:363:11"
+  },
+  "legacyAST": {
+    "absolutePath": "/tmp/4dc3a1f35eb2ac0746a4afda14417a7b0cb64f6d/implementation/contracts/external/IMedianizer.sol",
+    "exportedSymbols": {
+      "IMedianizer": [
+        5965
+      ]
+    },
+    "id": 5966,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5959,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:11"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@notice A medianizer price feed.\n @dev Based off the MakerDAO medianizer (https://github.com/makerdao/median)",
+        "fullyImplemented": false,
+        "id": 5965,
+        "linearizedBaseContracts": [
+          5965
+        ],
+        "name": "IMedianizer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@notice Get the current price.\n @dev May revert if caller not whitelisted.\n @return Price (USD) with 18 decimal places.",
+            "id": 5964,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "read",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5960,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "326:2:11"
+            },
+            "returnParameters": {
+              "id": 5963,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5962,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5964,
+                  "src": "352:7:11",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5961,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "352:7:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "351:9:11"
+            },
+            "scope": 5965,
+            "src": "313:48:11",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5966,
+        "src": "143:220:11"
+      }
+    ],
+    "src": "0:363:11"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-02-06T21:33:55.718Z",
+  "devdoc": {
+    "details": "Based off the MakerDAO medianizer (https://github.com/makerdao/median)",
+    "methods": {
+      "read()": {
+        "details": "May revert if caller not whitelisted.",
+        "return": "Price (USD) with 18 decimal places."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {
+      "read()": {
+        "notice": "Get the current price."
+      }
+    },
+    "notice": "A medianizer price feed."
+  }
+}

@@ -22,6 +22,18 @@ import QR from "./components/QRCode";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
+
+import {
+  getTokenReserves,
+  getMarketDetails,
+  getTradeDetails,
+  TRADE_EXACT,
+  tradeExactEthForTokensWithData,
+  getExecutionDetails,
+  FACTORY_ABI
+} from "@uniswap/sdk";
+
+import { BigNumber } from "bignumber.js";
 // import {
 //   // Grid,
 //   // LinearProgress,
@@ -55,6 +67,7 @@ import {
   use3Box
 } from "./hooks";
 
+const web3 = new Web3(window.ethereum);
 const myTheme = {
   radioButton: {
     check: {
@@ -126,6 +139,81 @@ const UnderHeader = styled.div`
 //     }
 //   }
 // `
+const exchangeAddress = "0x242E084657F5cdcF745C03684aAeC6E9b0bB85C5"; //ROPSTEN TBTC EXCHANGE
+const exchangeABI = require("./exchangeABI.json");
+const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
+const cbtcTokenAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
+var ctbtcABI = require("./ctbtcABI.json");
+
+const approveCtbcContract = async () => {
+  const tbtcTokenContract = new web3.eth.Contract(ctbtcABI, tbtcTokenAddress);
+  const [currentAccount] = await web3.eth.getAccounts();
+  let receipt;
+  try {
+    receipt = await tbtcTokenContract.methods
+      .approve(cbtcTokenAddress, web3.utils.toBN(10e18))
+      .send({ from: currentAccount });
+  } catch (err) {
+    console.error("Error approving contract", err);
+  }
+};
+const convertToCtbtc = async tbtcAmount => {
+  //grab ABI from ctbtc.json
+  const compoundcTBTCContract = new web3.eth.Contract(
+    ctbtcABI,
+    cbtcTokenAddress
+  );
+  window.ctoken = compoundcTBTCContract;
+  const numCtbtcToMint = web3.utils.toWei(".1", "ether");
+  const [currentAccount] = await web3.eth.getAccounts();
+
+  let balance = await compoundcTBTCContract.methods
+    .balanceOfUnderlying(currentAccount)
+    .call();
+  console.log("balances", balance);
+
+  let receipt;
+  try {
+    receipt = await compoundcTBTCContract.methods.mint(numCtbtcToMint).send({
+      from: currentAccount
+    });
+    console.log("receipt", receipt);
+    let balance = await compoundcTBTCContract.methods
+      .balanceOfUnderlying(currentAccount)
+      .call();
+    console.log("balances", balance);
+  } catch (err) {
+    console.error("Err minting", err);
+  }
+};
+
+// async function getMarkets() {
+//   const _purchaseAmount = new BigNumber("3");
+//   // const _purchaseAmount: BigNumber = new BigNumber('2.5')
+//   const _decimals = 18;
+//   const _tradeAmount = _purchaseAmount.multipliedBy(10 ** _decimals);
+
+//   let reserves = await getTokenReserves(
+//     "0x083f652051b9CdBf65735f98d83cc329725Aa957",
+//     3
+//   );
+
+//   let markets = await getMarketDetails(undefined, reserves);
+//   let trades = await getTradeDetails(
+//     TRADE_EXACT.input,
+//     _purchaseAmount,
+//     markets
+//   );
+//   let trade = await tradeExactEthForTokensWithData(reserves, _tradeAmount);
+//   let formattedTrade = await getExecutionDetails(trade);
+//   window.trade = formattedTrade;
+//   console.log("TRADE", formattedTrade);
+//   console.log(
+//     "Swap method arguments",
+//     formattedTrade.methodArguments[0],
+//     formattedTrade.methodArguments[1]
+//   );
+//   const [currentAccount] = await web3.eth.getAccounts();
 
 const MobileCol = styled(Col)`
   @media screen and (max-width: 992px) {
@@ -183,6 +271,7 @@ const App = () => {
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading);
+  useBTCDepositListeners(depositHandler, setSubmitting, submitting);
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,
@@ -282,6 +371,8 @@ const App = () => {
               headerText="Send BTC"
               loading={false}
             />
+            <button onClick={approveCtbcContract}>Approve</button>
+            <button onClick={convertToCtbtc}>Mint ctBtc</button>
             <UnderHeader></UnderHeader>
             <QR
               shouldDisplay={depositHandler && depositHandler.address}

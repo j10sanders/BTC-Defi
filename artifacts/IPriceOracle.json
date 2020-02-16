@@ -1,0 +1,523 @@
+{
+  "contractName": "IPriceOracle",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "price",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "name": "priceExpiryTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "PriceUpdated",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint128"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newPrice",
+          "type": "uint128"
+        }
+      ],
+      "name": "updatePrice",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.10;\n\n/// @title Bitcoin-Ether price oracle interface.\ncontract IPriceOracle {\n    event PriceUpdated(uint128 price, uint256 priceExpiryTime);\n\n    /// @notice Get the current price of bitcoin in ether\n    /// @dev Reverts if the price is invalid due to expiry\n    /// @return the price in terms of x wei : 1 satoshi\n    function getPrice() external view returns (uint128);\n\n    /// @notice Updates the price\n    /// @param newPrice the new price in terms of x wei : 1 satoshi\n    function updatePrice(uint128 newPrice) external;\n}\n",
+  "sourcePath": "/tmp/f57a109eb0a287e0e6cee1957cba8a73380d940e/implementation/contracts/interfaces/IPriceOracle.sol",
+  "ast": {
+    "absolutePath": "/tmp/f57a109eb0a287e0e6cee1957cba8a73380d940e/implementation/contracts/interfaces/IPriceOracle.sol",
+    "exportedSymbols": {
+      "IPriceOracle": [
+        5707
+      ]
+    },
+    "id": 5708,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5690,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:13"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Bitcoin-Ether price oracle interface.",
+        "fullyImplemented": false,
+        "id": 5707,
+        "linearizedBaseContracts": [
+          5707
+        ],
+        "name": "IPriceOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 5696,
+            "name": "PriceUpdated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5695,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5692,
+                  "indexed": false,
+                  "name": "price",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5696,
+                  "src": "122:13:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
+                  },
+                  "typeName": {
+                    "id": 5691,
+                    "name": "uint128",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "122:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5694,
+                  "indexed": false,
+                  "name": "priceExpiryTime",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5696,
+                  "src": "137:23:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5693,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "137:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "121:40:13"
+            },
+            "src": "103:59:13"
+          },
+          {
+            "body": null,
+            "documentation": "@notice Get the current price of bitcoin in ether\n @dev Reverts if the price is invalid due to expiry\n @return the price in terms of x wei : 1 satoshi",
+            "id": 5701,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5697,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "358:2:13"
+            },
+            "returnParameters": {
+              "id": 5700,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5699,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5701,
+                  "src": "384:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
+                  },
+                  "typeName": {
+                    "id": 5698,
+                    "name": "uint128",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "384:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "383:9:13"
+            },
+            "scope": 5707,
+            "src": "341:52:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@notice Updates the price\n @param newPrice the new price in terms of x wei : 1 satoshi",
+            "id": 5706,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updatePrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5704,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5703,
+                  "name": "newPrice",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5706,
+                  "src": "522:16:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
+                  },
+                  "typeName": {
+                    "id": 5702,
+                    "name": "uint128",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "522:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "521:18:13"
+            },
+            "returnParameters": {
+              "id": 5705,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "548:0:13"
+            },
+            "scope": 5707,
+            "src": "501:48:13",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5708,
+        "src": "75:476:13"
+      }
+    ],
+    "src": "0:552:13"
+  },
+  "legacyAST": {
+    "absolutePath": "/tmp/f57a109eb0a287e0e6cee1957cba8a73380d940e/implementation/contracts/interfaces/IPriceOracle.sol",
+    "exportedSymbols": {
+      "IPriceOracle": [
+        5707
+      ]
+    },
+    "id": 5708,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5690,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:13"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Bitcoin-Ether price oracle interface.",
+        "fullyImplemented": false,
+        "id": 5707,
+        "linearizedBaseContracts": [
+          5707
+        ],
+        "name": "IPriceOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 5696,
+            "name": "PriceUpdated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5695,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5692,
+                  "indexed": false,
+                  "name": "price",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5696,
+                  "src": "122:13:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
+                  },
+                  "typeName": {
+                    "id": 5691,
+                    "name": "uint128",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "122:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5694,
+                  "indexed": false,
+                  "name": "priceExpiryTime",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5696,
+                  "src": "137:23:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5693,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "137:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "121:40:13"
+            },
+            "src": "103:59:13"
+          },
+          {
+            "body": null,
+            "documentation": "@notice Get the current price of bitcoin in ether\n @dev Reverts if the price is invalid due to expiry\n @return the price in terms of x wei : 1 satoshi",
+            "id": 5701,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5697,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "358:2:13"
+            },
+            "returnParameters": {
+              "id": 5700,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5699,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5701,
+                  "src": "384:7:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
+                  },
+                  "typeName": {
+                    "id": 5698,
+                    "name": "uint128",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "384:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "383:9:13"
+            },
+            "scope": 5707,
+            "src": "341:52:13",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@notice Updates the price\n @param newPrice the new price in terms of x wei : 1 satoshi",
+            "id": 5706,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updatePrice",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5704,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5703,
+                  "name": "newPrice",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5706,
+                  "src": "522:16:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint128",
+                    "typeString": "uint128"
+                  },
+                  "typeName": {
+                    "id": 5702,
+                    "name": "uint128",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "522:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint128",
+                      "typeString": "uint128"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "521:18:13"
+            },
+            "returnParameters": {
+              "id": 5705,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "548:0:13"
+            },
+            "scope": 5707,
+            "src": "501:48:13",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5708,
+        "src": "75:476:13"
+      }
+    ],
+    "src": "0:552:13"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.2",
+  "updatedAt": "2020-01-02T20:32:58.354Z",
+  "devdoc": {
+    "methods": {
+      "getPrice()": {
+        "details": "Reverts if the price is invalid due to expiry",
+        "return": "the price in terms of x wei : 1 satoshi"
+      },
+      "updatePrice(uint128)": {
+        "params": {
+          "newPrice": "the new price in terms of x wei : 1 satoshi"
+        }
+      }
+    },
+    "title": "Bitcoin-Ether price oracle interface."
+  },
+  "userdoc": {
+    "methods": {
+      "getPrice()": {
+        "notice": "Get the current price of bitcoin in ether"
+      },
+      "updatePrice(uint128)": {
+        "notice": "Updates the price"
+      }
+    }
+  }
+}

@@ -3,10 +3,6 @@ import { CircularProgress } from "@material-ui/core";
 import TBTC from "./tbtc.js/TBTC.js";
 import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
-import Dots from "./images/dots.svg";
-import One from "./images/one.svg";
-import Two from "./images/two.svg";
-import Done from "./images/done.svg";
 import {
   Grommet,
   Button,
@@ -243,7 +239,7 @@ const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
   return (
     <div style={{ display: "flex", marginRight: "10px", ...style }}>
       <div style={{ display: "inline" }}>
-        <StyledNumber src={!stepDone ? image : Done} alt="first step" />
+        <StyledNumber src={!stepDone ? image : "/done.svg"} alt="first step" />
         {loading && (
           <CircularProgress
             size="48px"
@@ -325,11 +321,11 @@ const App = () => {
       <Container style={{ paddingTop: "40px" }}>
         <Row>
           <MobileCol md={2} sm={0}>
-            <StyledDots src={Dots} alt="dots for fun" />
+            <StyledDots src="/dots.svg" alt="dots for fun" />
           </MobileCol>
           <Col md={10} sm={12}>
             <StepComponent
-              image={One}
+              image="/one.svg"
               stepDone={step > 0}
               headerText={determineHelperText(
                 step1SigsRequired,
@@ -404,7 +400,7 @@ const App = () => {
             )}
             <StepComponent
               style={{ marginTop: "55px " }}
-              image={Two}
+              image="/two.svg"
               stepDone={step > 1}
               headerText="Send BTC"
               loading={false}

@@ -69,7 +69,10 @@ export class DepositFactory {
    * @param satoshiLotSize The lot size, in satoshis, of the deposit. Must be
    *        in the list of allowed lot sizes from Deposit.availableLotSizes().
    */
-  async withSatoshiLotSize(satoshiLotSize /*: BN*/) /*: Promise<Deposit>*/ {
+  async withSatoshiLotSize(
+    satoshiLotSize /*: BN*/,
+    setStep1SigsRequired
+  ) /*: Promise<Deposit>*/ {
     if (!(await this.systemContract.isAllowedLotSize(satoshiLotSize))) {
       throw new Error(
         `Lot size ${satoshiLotSize} is not permitted; only ` +
@@ -78,7 +81,11 @@ export class DepositFactory {
       );
     }
 
-    const deposit = Deposit.forLotSize(this, satoshiLotSize);
+    const deposit = Deposit.forLotSize(
+      this,
+      satoshiLotSize,
+      setStep1SigsRequired
+    );
     return deposit;
   }
 
@@ -174,7 +181,8 @@ export default class Deposit {
 
   static async forLotSize(
     factory /*: DepositFactory*/,
-    satoshiLotSize /*: BN*/
+    satoshiLotSize /*: BN*/,
+    cb = () => {}
   ) /*: Promise<Deposit>*/ {
     console.log(
       "Creating new deposit contract with lot size",
@@ -185,6 +193,7 @@ export default class Deposit {
       depositAddress,
       keepAddress
     } = await factory.createNewDepositContract(satoshiLotSize);
+    cb(1);
     console.log(
       `Looking up new deposit with address ${depositAddress} backed by ` +
         `keep at address ${keepAddress}...`
@@ -194,7 +203,7 @@ export default class Deposit {
     ECDSAKeepContract.setProvider(factory.config.web3.currentProvider);
     const keepContract = await ECDSAKeepContract.at(keepAddress);
 
-    return new Deposit(factory, contract, keepContract);
+    return new Deposit(factory, contract, keepContract, cb);
   }
 
   static async forAddress(
@@ -235,7 +244,8 @@ export default class Deposit {
   constructor(
     factory /*: DepositFactory*/,
     depositContract /*: TruffleContract*/,
-    keepContract /*: TruffleContract */
+    keepContract /*: TruffleContract */,
+    cb = () => {}
   ) {
     if (!keepContract) {
       throw "Keep contract required for Deposit instantiation.";
@@ -249,7 +259,7 @@ export default class Deposit {
     // Set up state transition promises.
     this.activeStatePromise = this.waitForActiveState();
 
-    this.publicKeyPoint = this.findOrWaitForPublicKeyPoint();
+    this.publicKeyPoint = this.findOrWaitForPublicKeyPoint(cb);
     this.bitcoinAddress = this.publicKeyPoint.then(
       this.publicKeyPointToBitcoinAddress.bind(this)
     );
@@ -680,7 +690,7 @@ export default class Deposit {
   //
   // Returns a promise that will be fulfilled once the public key is
   // available, with a public key point with x and y properties.
-  async findOrWaitForPublicKeyPoint() {
+  async findOrWaitForPublicKeyPoint(cb = () => {}) {
     let signerPubkeyEvent = await this.readPublishedPubkeyEvent();
     if (signerPubkeyEvent) {
       console.log(
@@ -704,6 +714,8 @@ export default class Deposit {
     const pubkeyTransaction = await this.contract.retrieveSignerPubkey({
       from: this.factory.config.web3.eth.defaultAccount
     });
+
+    cb(0);
 
     console.log(`Found public key for deposit ${this.address}...`);
     const {

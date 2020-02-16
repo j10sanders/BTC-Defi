@@ -267,6 +267,7 @@ const App = () => {
     submittedInitialDepositAmount,
     setSubmittedInitialDepositAmount
   ] = useState(false);
+  const [txInFlight, setTxInFlight] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
@@ -280,7 +281,8 @@ const App = () => {
     setSubmitting,
     submitting,
     setStep,
-    setLoading
+    setLoading,
+    setTxInFlight
   );
   usePendingDeposit(
     tbtcHandler,
@@ -290,10 +292,9 @@ const App = () => {
     setDepositHandler,
     setStep,
     setLoading,
-    setStep1SigsRequired
+    setStep1SigsRequired,
+    setTxInFlight
   );
-
-  console.log("step1SigsRequired", step1SigsRequired);
 
   // useEffect(() => {
   //   if (step === 0 && !depositHandler){

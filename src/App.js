@@ -1,24 +1,47 @@
 import React, { Component, useState, useEffect } from "react";
+import TBTC from "./tbtc.js/TBTC.js";
+import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
+import { Container, Row, Col } from "react-bootstrap";
+import Dots from "./images/dots.svg";
+import One from "./images/one.svg";
+import Two from "./images/two.svg";
+import {
+  Grommet,
+  Button,
+  Menu,
+  Box,
+  Anchor,
+  Heading,
+  Header,
+  RadioButton
+} from "grommet";
+import { grommet } from "grommet/themes";
+
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
-import {
-  // Grid,
-  // LinearProgress,
-  // Dialog,
-  // DialogActions,
-  // DialogContent,
-  // DialogContentText,
-  // DialogTitle,
-  Button
-} from "@material-ui/core";
+// import {
+//   // Grid,
+//   // LinearProgress,
+//   // Dialog,
+//   // DialogActions,
+//   // DialogContent,
+//   // DialogContentText,
+//   // DialogTitle,
+//   Button
+// } from "@material-ui/core";
 import "./App.css";
+import convertToCTBTC from "./tbtc.js/ctbtc.js";
 // import Header from './components/Header'
 // import Error from './components/Error'
 // import Gravatars from './components/Gravatars'
 // import Filter from './components/Filter'
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
+import "bootstrap/dist/css/bootstrap.min.css";
+import styled from "styled-components";
 import CreateDeposits from "./CreateDeposits.js";
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 
 import HDWalletProvider from "@truffle/hdwallet-provider";
 
@@ -28,6 +51,49 @@ import {
   usePendingDeposit,
   use3Box
 } from "./hooks";
+
+const myTheme = {
+  radioButton: {
+    check: {
+      color: "#1A5AFE"
+    }
+  },
+  global: {
+    font: {
+      family: "Rubik, sans-serif !important"
+    }
+  }
+};
+
+const StyledDots = styled.img`
+  left: 0;
+  position: fixed;
+  top: 104px;
+`;
+
+const StyledNumber = styled.img`
+  margin-top: -11px;
+  padding-right: 20px;
+`;
+
+const HeaderText = styled.div`
+  font-size: 32px;
+  font-weight: 500;
+  display: inline;
+`;
+
+const StyledHeading = styled(Heading)`
+  /* padding-top: 7px;
+  padding-bottom: 5px; */
+  /* padding-top: 20px; */
+  background-color: white;
+  margin: 0 auto;
+`;
+
+const UnderHeader = styled.div`
+  margin-top: 10px;
+  padding-left: 68px;
+`;
 const mnemonic =
   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
 
@@ -69,47 +135,7 @@ const sendWeb3Transaction = () => {
   });
 };
 
-const convertToCTBTC = (ethWalletAddress, tbtcValue) => {
-  const contractAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
-  //grab ABI from ctbtc.json
-  var fs = require("fs");
-  var jsonFile = "./ctbtc.json";
-  var parsed = JSON.parse(fs.readFileSync(jsonFile));
-  var abi = parsed.abi;
-
-  const compoundcTBTCContract = new Web3.eth.Contract(abi, contractAddress);
-
-  console.log("Sending ETH to the Compound Protocol...");
-  compoundcTBTCContract.methods
-    .mint()
-    .send({
-      from: ethWalletAddress,
-      gasLimit: Web3.utils.toHex(150000), // posted at compound.finance/developers#gas-costs
-      gasPrice: Web3.utils.toHex(20000000000), // use ethgasstation.info (mainnet only)
-      value: Web3.utils.toHex(Web3.utils.toWei(tbtcValue, "ether"))
-    })
-    .then(result => {
-      console.log('cTBTC "Mint" operation successful.');
-      return compoundcTBTCContract.methods
-        .balanceOfUnderlying(ethWalletAddress)
-        .call();
-    })
-    .then(balanceOfUnderlying => {
-      balanceOfUnderlying = Web3.utils.fromWei(balanceOfUnderlying).toString();
-      console.log(
-        "tBTC supplied to the Compound Protocol:",
-        balanceOfUnderlying
-      );
-      return compoundcTBTCContract.methods.balanceOf(ethWalletAddress).call();
-    })
-    .then(cTokenBalance => {
-      cTokenBalance = (cTokenBalance / 1e8).toString();
-      console.log("My wallet's cTBTC Token Balance:", cTokenBalance);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-};
+const toBtcSize = largeNum => largeNum / 100000000;
 
 const App = () => {
   const [error, setError] = useState("");
@@ -117,7 +143,7 @@ const App = () => {
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-  const [depositSatoshiAmount, setDepositSatoshiAmount] = useState();
+  const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting);
@@ -132,45 +158,79 @@ const App = () => {
   console.log("PENDING DEPOS", pendingDepositAddress);
 
   return (
-    <div>
-      {lots.map((lot, i) => {
-        return (
-          <button
-            type="radio"
-            key={i}
-            onClick={() => {
-              setDepositSatoshiAmount(lot);
-            }}
-          >
-            {lot.toString()}
-          </button>
-        );
-      })}
-      <p>
-        selected desosit amount:{" "}
-        {depositSatoshiAmount && depositSatoshiAmount.toString()}
-      </p>
-      <button
-        style={{
-          cursor:
-            depositSatoshiAmount && depositSatoshiAmount.gt(0)
-              ? "pointer"
-              : "not-allowed"
-        }}
-        disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
-        onClick={async () => {
-          const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
-            depositSatoshiAmount
-          );
-          console.log("got deposit");
-          tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);
-          console.log("set in 3box space");
-          setDepositHandler(deposit);
-        }}
+    <Grommet theme={myTheme}>
+      <Header
+        pad="small"
+        style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
-        Submit
-      </button>
-    </div>
+        {/* <Box direction="row" gap="medium" > */}
+        <StyledHeading size="small" color="#1A5AFE">
+          Convert BTC to TBTC
+        </StyledHeading>
+        {/* <Anchor label="Profile" href="#" /> */}
+        {/* </Box> */}
+      </Header>
+      <Container style={{ paddingTop: "40px" }}>
+        <Row>
+          <Col sm={2} xs={0}>
+            <StyledDots src={Dots} alt="dots for fun" />
+          </Col>
+          <Col sm={10} xs={12}>
+            <div>
+              <StyledNumber src={One} alt="first step" />
+              <HeaderText>Select deposit amount</HeaderText>
+            </div>
+            <UnderHeader>
+              {lots.map((lot, i) => {
+                return (
+                  <RadioButton
+                    key={i}
+                    checked={depositSatoshiAmount === lot}
+                    onChange={() => {
+                      setDepositSatoshiAmount(lot);
+                    }}
+                    label={`${toBtcSize(lot)} BTC`}
+                    name={`${toBtcSize(lot)} BTC`}
+                  />
+                );
+              })}
+              {depositSatoshiAmount && (
+                <>
+                  <div style={{ paddingTop: "20px" }}>
+                    Once you click “create deposit”, you’ll be prompted twice to
+                    sign messages.
+                  </div>
+                </>
+              )}
+              <AwesomeButton
+                style={{
+                  marginTop: "14px"
+                }}
+                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
+                onClick={async () => {
+                  const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
+                    depositSatoshiAmount
+                  );
+                  console.log("got deposit");
+                  tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);
+                  console.log("set in 3box space");
+                  setDepositHandler(deposit);
+                }}
+              >
+                {`Create ${
+                  depositSatoshiAmount ? toBtcSize(depositSatoshiAmount) : ""
+                } BTC Deposit`}
+              </AwesomeButton>
+            </UnderHeader>
+            <div style={{ marginTop: "55px" }}>
+              <StyledNumber src={Two} alt="first step" />
+              <HeaderText>Send BTC</HeaderText>
+            </div>
+            <UnderHeader></UnderHeader>
+          </Col>
+        </Row>
+      </Container>
+    </Grommet>
   );
 };
 

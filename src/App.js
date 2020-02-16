@@ -260,7 +260,7 @@ const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
 };
 
 const App = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
@@ -286,7 +286,11 @@ const App = () => {
   //     setStep(1)
   //   }
   // }, [step, depositHandler])
-
+  let currentScreen
+  switch (step) {
+    case -1:
+      <CircularProgress />
+  }
   return (
     <Grommet theme={myTheme}>
       <Header
@@ -346,8 +350,9 @@ const App = () => {
                 disabled={
                   !depositSatoshiAmount ||
                   depositSatoshiAmount.lte(0) ||
-                  step !== 0 || loading
+                  step !== 0
                 }
+                // placeholder={step === 0 && loading}
                 onPress={async () => {
                   setLoading(true)
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(

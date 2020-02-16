@@ -3,7 +3,7 @@ import QRCode from "qrcode";
 
 export default ({ depositHandler }) => {
   const [bitcoinAddress, setBitcoinAddress] = useState("");
-  console.log("Deposit handler", depositHandler)
+  console.log("Deposit handler", depositHandler);
   useEffect(() => {
     if (!bitcoinAddress && depositHandler && depositHandler.address) {
       depositHandler.bitcoinAddress.then(setBitcoinAddress);
@@ -15,5 +15,8 @@ export default ({ depositHandler }) => {
       QRCode.toCanvas(document.getElementById("canvas"), bitcoinAddress);
     }
   }, [bitcoinAddress]);
+  if (!bitcoinAddress) {
+    return null;
+  }
   return <canvas id="canvas"></canvas>;
 };

@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Dots from "./images/dot-grid-triangle.svg";
 import One from "./images/one.svg";
 import Two from "./images/two.svg";
+import Three from "./images/three.svg";
 import Done from "./images/done.svg";
 import {
   Grommet,
@@ -282,6 +283,7 @@ const App = () => {
   const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
+  const [mintAllowed, setMintAllowed] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(
     depositHandler,
@@ -312,7 +314,7 @@ const App = () => {
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
         <StyledHeading size="small" color="#1A5AFE">
-          Bitcoin Earn 
+          Bitcoin Earn
         </StyledHeading>
       </Header>
       <button
@@ -403,11 +405,11 @@ const App = () => {
               </UnderHeader>
             )}
             <StepComponent
-              style={{ marginTop: "55px " }}
+              style={{ marginTop: "55px" }}
               image={Two}
               stepDone={step > 1}
               headerText="Send BTC"
-              loading={false}
+              loading={txInFlight && !bitcoinDepositComplete}
             />
             {!txInFlight && (
               <UnderHeader>
@@ -417,51 +419,49 @@ const App = () => {
                 />
               </UnderHeader>
             )}
-            
+
             <StepComponent
-              style={{ marginTop: "55px " }}
-              image={Two}
+              style={{ marginTop: "55px" }}
+              image={Three}
               stepDone={false}
-              headerText="Send BTC"
+              headerText="Go into DeFi"
               loading={false}
             />
-            {true && (
-              <UnderHeader>
-                <QR
-                  shouldDisplay={depositHandler && depositHandler.address}
-                  depositHandler={depositHandler}
+            {/* {step === 2 && ( */}
+            <UnderHeader>
+              <div>{`Current Address: ${currentAddress}`}</div>
+              <div>{`TBTC Balance: ${balances.TBTC}`}</div>
+              <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
+              <AwesomeButton
+                onPress={() => {
+                  approveCtbcContract(currentAddress);
+                  setMintAllowed(true);
+                }}
+                style={{
+                  marginTop: "14px"
+                }}
+                disabled={!currentAddress}
+              >
+                Enable cTBTC Minting
+              </AwesomeButton>
+              <div style={{ width: "200px" }}>
+                <TextInput
+                  label="Input amount"
+                  size="small"
+                  value={inputAmount}
+                  onChange={event => setInputAmount(event.target.value)}
                 />
-              </UnderHeader>
-            )}
-
-
-            <div>
-              <h1> {`Current Address: ${currentAddress}`}</h1>
-              <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
-              <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
-            </div>
-            <AwesomeButton
-              onPress={() => {
-                approveCtbcContract(currentAddress);
-              }}
-              style={{
-                marginTop: "14px"
-              }}
-            >
-              Enable cTBTC Minting
-            </AwesomeButton>
-            <TextInput
-              label="Input amount"
-              value={inputAmount}
-              onChange={event => setInputAmount(event.target.value)}
-            />
-            <AwesomeButton
-              onPress={() => {
-                useTbtcToMintCtbtc(currentAddress, inputAmount);
-              }}
-            >
-              Mint cTBtc
-            </AwesomeButton>
+              </div>
+              <AwesomeButton
+                onPress={() => {
+                  useTbtcToMintCtbtc(currentAddress, inputAmount);
+                }}
+                disabled={!mintAllowed}
+              >
+                Mint cTBtc
+              </AwesomeButton>
+            </UnderHeader>
+            {/* )} */}
           </Col>
         </Row>
       </Container>

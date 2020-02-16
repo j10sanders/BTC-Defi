@@ -18,7 +18,7 @@ import Web3 from "web3";
 let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 const provider = fm.getProvider();
 
-export const use3Box = () => {
+export const use3Box = setStep => {
   const [pendingDepositAddress, setPendingDepositAddress] = useState("");
   const [tbtcDepositSpace, setTbtcDepositSpace] = useState(null);
   useEffect(() => {
@@ -31,7 +31,7 @@ export const use3Box = () => {
       const tbtcDepositSpace = await box.openSpace("tbtc-deposit");
       await tbtcDepositSpace.syncDone;
       const depositAddress = await tbtcDepositSpace.public.get("tbtc-deposit");
-      console.log("DEP ADDRESS", depositAddress);
+      setStep(0);
       setPendingDepositAddress(depositAddress || "");
       setTbtcDepositSpace(tbtcDepositSpace);
     };
@@ -84,7 +84,7 @@ export const registerBTCDepositListeners = (
   setSubmitting,
   submitting,
   setStep,
-  setLoading,
+  setLoading
 ) => {
   const registerBtcTxListener = () => {
     console.log("BITCOIN TX LISTENER IS ABOUT TO GET REGISTERED");
@@ -100,10 +100,15 @@ export const registerBTCDepositListeners = (
   if (depositHandler && !submitting) registerBtcTxListener();
 };
 
-const onBTCAddressResolution = async (address, depositHandler, setStep, setLoading) => {
+const onBTCAddressResolution = async (
+  address,
+  depositHandler,
+  setStep,
+  setLoading
+) => {
   console.log("BITCOIN ADDRESS JUST RESOLVED ", address);
-  setStep(1)
-  setLoading(false)
+  setStep(1);
+  setLoading(false);
   const expectedValue = (await depositHandler.getSatoshiLotSize()).toNumber();
   console.log(`Monitoring Bitcoin for transaction to address ${address}...`);
   const tx = await BitcoinHelpers.Transaction.findOrWaitFor(
@@ -151,7 +156,7 @@ export const usePendingDeposit = (
   setSubmitting,
   setDepositHandler,
   setStep,
-  setLoading,
+  setLoading
 ) => {
   useEffect(() => {
     const listenForPendingDeposits = async () => {
@@ -188,10 +193,16 @@ export const useBTCDepositListeners = (
   setSubmitting,
   submitting,
   setStep,
-  setLoading,
+  setLoading
 ) =>
   useEffect(
     () =>
-      registerBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading),
+      registerBTCDepositListeners(
+        depositHandler,
+        setSubmitting,
+        submitting,
+        setStep,
+        setLoading
+      ),
     [depositHandler, submitting, setSubmitting]
   );

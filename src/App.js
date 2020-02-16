@@ -45,7 +45,6 @@ import { BigNumber } from "bignumber.js";
 //   Button
 // } from "@material-ui/core";
 import "./App.css";
-import convertToCTBTC from "./tbtc.js/ctbtc.js";
 // import Header from './components/Header'
 // import Error from './components/Error'
 // import Gravatars from './components/Gravatars'
@@ -262,15 +261,22 @@ const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
 const App = () => {
   const [step, setStep] = useState(-1);
   const [loading, setLoading] = useState(false);
+  const [step1SigsRequired, setStep1SigsRequired] = useState(2);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
-  const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
+  const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
-  useBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading);
+  useBTCDepositListeners(
+    depositHandler,
+    setSubmitting,
+    submitting,
+    setStep,
+    setLoading
+  );
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,
@@ -278,7 +284,7 @@ const App = () => {
     setSubmitting,
     setDepositHandler,
     setStep,
-    setLoading,
+    setLoading
   );
 
   // useEffect(() => {
@@ -286,40 +292,33 @@ const App = () => {
   //     setStep(1)
   //   }
   // }, [step, depositHandler])
-  let currentScreen
+  let step1HeaderText
+  if (step > 2) {
+    if (step1SigsRequired === 2) {
+      step1HeaderText = "Select deposit amount"
+    } else if (step1SigsRequired === 1) {
+      step1HeaderText = "Fortmatic will prompt you for one more signature..."
+    }
+    else if (step1SigsRequired === 0) {
+      step1HeaderText = "Waiting for address to deposit your Bitcoin..."
+    }
+  }
+  let currentScreen;
   switch (step) {
     case -1:
-      <CircularProgress />
-  }
-  return (
-    <Grommet theme={myTheme}>
-      <Header
-        pad="small"
-        style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
-      >
-        <StyledHeading size="small" color="#1A5AFE">
-          Convert BTC to TBTC
-        </StyledHeading>
-      </Header>
-      <button
-        onClick={async () => {
-          await tbtcDepositSpace.public.remove("tbtc-deposit");
-        }}
-      >
-        Erase 3Box
-      </button>
-      <Container style={{ paddingTop: "40px" }}>
-        <Row>
-          <MobileCol md={2} sm={0}>
-            <StyledDots src={Dots} alt="dots for fun" />
-          </MobileCol>
-          <Col md={10} sm={12}>
-            <StepComponent
-              image={One}
-              stepDone={step > 0}
-              headerText="Select deposit amount"
-              loading={step === 0 && loading}
-            />
+      currentScreen = <CircularProgress />;
+      break;
+    case 0:
+    case 1:
+      currentScreen = (
+        <>
+          <StepComponent
+            image={One}
+            stepDone={step > 0}
+            headerText= {step1HeaderText}
+            loading={step === 0 && loading}
+          />
+          {step1SigsRequired && (
             <UnderHeader>
               {lots.map((lot, i) => {
                 return (
@@ -344,7 +343,7 @@ const App = () => {
               )}
               <AwesomeButton
                 style={{
-                  marginTop: "14px",
+                  marginTop: "14px"
                   // padding: "20px"
                 }}
                 disabled={
@@ -354,7 +353,7 @@ const App = () => {
                 }
                 // placeholder={step === 0 && loading}
                 onPress={async () => {
-                  setLoading(true)
+                  setLoading(true);
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );
@@ -369,20 +368,55 @@ const App = () => {
                 } BTC Deposit`}
               </AwesomeButton>
             </UnderHeader>
-            <StepComponent
-              style={{ marginTop: "55px " }}
-              image={Two}
-              stepDone={step > 1}
-              headerText="Send BTC"
-              loading={false}
-            />
-            <button onClick={approveCtbcContract}>Approve</button>
-            <button onClick={convertToCtbtc}>Mint ctBtc</button>
-            <UnderHeader></UnderHeader>
-            <QR
-              shouldDisplay={depositHandler && depositHandler.address}
-              depositHandler={depositHandler}
-            />
+          )}
+          <StepComponent
+            style={{ marginTop: "55px " }}
+            image={Two}
+            stepDone={step > 1}
+            headerText="Send BTC"
+            loading={false}
+          />
+          <button onClick={approveCtbcContract}>Approve</button>
+          <button onClick={convertToCtbtc}>Mint ctBtc</button>
+          <UnderHeader></UnderHeader>
+          <QR
+            shouldDisplay={depositHandler && depositHandler.address}
+            depositHandler={depositHandler}
+          />
+        </>
+      );
+      break;
+    case 2:
+      currentScreen = <>Hello</>;
+      break;
+    default:
+      currentScreen = <CircularProgress />;
+      break;
+  }
+  return (
+    <Grommet theme={myTheme}>
+      <Header
+        pad="small"
+        style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
+      >
+        <StyledHeading size="small" color="#1A5AFE">
+          Convert BTC to TBTC
+        </StyledHeading>
+      </Header>
+      <button
+        onClick={async () => {
+          await tbtcDepositSpace.public.remove("tbtc-deposit");
+        }}
+      >
+        Erase 3Box
+      </button>
+      <Container style={{ paddingTop: "40px" }}>
+        <Row>
+          <MobileCol md={2} sm={0}>
+            <StyledDots src={Dots} alt="dots for fun" />
+          </MobileCol>
+          <Col md={10} sm={12}>
+            {currentScreen}
           </Col>
         </Row>
       </Container>

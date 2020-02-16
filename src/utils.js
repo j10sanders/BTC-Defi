@@ -9,5 +9,5 @@ export const determineHelperText = (
   )
     return "Select deposit amount";
   if (sigsRequired === 1) return "One more signature left to go!";
-  if (sigsRequired === 0) return "No more signatures required.";
+  if (sigsRequired === 0) return "Deposit created";
 };

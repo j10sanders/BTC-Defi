@@ -55,11 +55,8 @@ import Fortmatic from "fortmatic";
 import Web3 from "web3";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-import CreateDeposits from "./CreateDeposits.js";
 import { AwesomeButton as StyleButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
-
-import HDWalletProvider from "@truffle/hdwallet-provider";
 
 import {
   useLotsAndTbtcHandler,

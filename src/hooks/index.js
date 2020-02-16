@@ -67,7 +67,7 @@ export const getAddressAndBalances = () => {
         let TBTC = await TBTCTokenContract.methods
           .balanceOf(currentAccount)
           .call();
-        setBalances({ CTBTC, TBTC });
+        setBalances({ CTBTC, TBTC, result });
         setAllowance(result);
         console.log(TBTC, CTBTC, allowance);
       } else {

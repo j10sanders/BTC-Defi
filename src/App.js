@@ -433,7 +433,7 @@ const App = () => {
             <div>
               <h1> {`Current Address: ${currentAddress}`}</h1>
               <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
-              <h1> {`Allowance: ${balances.allowance}`}</h1>
+              <h1> {`Allowance: ${balances.result}`}</h1>
               <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
             </div>
             <AwesomeButton

@@ -46,7 +46,12 @@ import "react-awesome-button/dist/styles.css";
 
 import HDWalletProvider from "@truffle/hdwallet-provider";
 
-import { useLotsAndDepositHandler, useBTCDepositListeners } from "./hooks";
+import {
+  useLotsAndTbtcHandler,
+  useBTCDepositListeners,
+  usePendingDeposit,
+  use3Box
+} from "./hooks";
 
 const myTheme = {
   radioButton: {
@@ -120,6 +125,13 @@ const UnderHeader = styled.div`
 //   }
 // `
 
+const MobileCol = styled(Col)`
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+}
+`
+
 const sendWeb3Transaction = () => {
   const { web3 } = window;
   const value = web3.utils.toWei("0.01", "ether");
@@ -137,13 +149,23 @@ const App = () => {
   const [step, setStep] = useState(0)
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
-  const [tbtcHandler, setTbtcHandler] = useState({});
+  const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
-  useLotsAndDepositHandler(setError, setLots, setTbtcHandler);
+  const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
+  useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting);
-  console.log(step, "step")
+  usePendingDeposit(
+    tbtcHandler,
+    pendingDepositAddress,
+    submitting,
+    setSubmitting,
+    setDepositHandler
+  );
+
+  console.log("PENDING DEPOS", pendingDepositAddress);
+
   return (
     <Grommet theme={myTheme}>
       <Header
@@ -156,10 +178,10 @@ const App = () => {
       </Header>
       <Container style={{ paddingTop: "40px" }}>
         <Row>
-          <Col sm={2} xs={0}>
+          <MobileCol md={2} sm={0}>
             <StyledDots src={Dots} alt="dots for fun" />
-          </Col>
-          <Col sm={10} xs={12}>
+          </MobileCol>
+          <Col md={10} sm={12}>
             <div>
               <StyledNumber src={step < 1 ? One : Done} alt="first step" />
               <HeaderText>Select deposit amount</HeaderText>
@@ -196,10 +218,15 @@ const App = () => {
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );
+                  console.log("got deposit");
+                  tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);
+                  console.log("set in 3box space");
                   setDepositHandler(deposit);
                 }}
               >
-                {`Create ${depositSatoshiAmount ? toBtcSize(depositSatoshiAmount) : ''} BTC Deposit`}
+                {`Create ${
+                  depositSatoshiAmount ? toBtcSize(depositSatoshiAmount) : ""
+                } BTC Deposit`}
               </AwesomeButton>
             </UnderHeader>
             <div style={{ marginTop: "55px" }}>

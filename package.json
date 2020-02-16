@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "3box": "^1.17.0",
     "@keep-network/tbtc.js": "^0.6.6",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",

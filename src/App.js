@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import { CircularProgress } from "@material-ui/core";
 import TBTC from "./tbtc.js/TBTC.js";
 import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
@@ -130,7 +131,7 @@ const MobileCol = styled(Col)`
     display: none;
   }
 }
-`
+`;
 
 const sendWeb3Transaction = () => {
   const { web3 } = window;
@@ -146,7 +147,7 @@ const sendWeb3Transaction = () => {
 const toBtcSize = largeNum => largeNum / 100000000;
 
 const App = () => {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(0);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
@@ -212,9 +213,13 @@ const App = () => {
                 style={{
                   marginTop: "14px"
                 }}
-                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0) || step !== 0}
+                disabled={
+                  !depositSatoshiAmount ||
+                  depositSatoshiAmount.lte(0) ||
+                  step !== 0
+                }
                 onPress={async () => {
-                  setStep(step + 1)
+                  setStep(step + 1);
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );
@@ -231,6 +236,7 @@ const App = () => {
             </UnderHeader>
             <div style={{ marginTop: "55px" }}>
               <StyledNumber src={Two} alt="first step" />
+              {/* <CircularProgress size="48px" style={{ marginLeft: "-68px", marginTop: "-11px" }} /> */}
               <HeaderText>Send BTC</HeaderText>
             </div>
             <UnderHeader></UnderHeader>

@@ -249,6 +249,7 @@ export default class Deposit {
     this.activeStatePromise = this.waitForActiveState();
 
     this.publicKeyPoint = this.findOrWaitForPublicKeyPoint();
+    //    this.bitcoinAddress = Promise.resolve('tb1q7jlzs5mtlfamcr5ew7dw9x7u4hgv72g3qghht8')
     this.bitcoinAddress = this.publicKeyPoint.then(
       this.publicKeyPointToBitcoinAddress.bind(this)
     );

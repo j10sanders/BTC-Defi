@@ -1,10 +1,12 @@
 import React, { Component, useState, useEffect } from "react";
+import { CircularProgress } from "@material-ui/core";
 import TBTC from "./tbtc.js/TBTC.js";
 import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
 import Dots from "./images/dots.svg";
 import One from "./images/one.svg";
 import Two from "./images/two.svg";
+import Done from "./images/done.svg";
 import {
   Grommet,
   Button,
@@ -15,7 +17,7 @@ import {
   Header,
   RadioButton
 } from "grommet";
-import { grommet } from "grommet/themes";
+// import { grommet } from "grommet/themes";
 import QR from "./components/QRCode";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
@@ -86,7 +88,7 @@ const StyledDots = styled.img`
 `;
 
 const StyledNumber = styled.img`
-  margin-top: -11px;
+  /* margin-top: -11px; */
   padding-right: 20px;
 `;
 
@@ -108,13 +110,13 @@ const UnderHeader = styled.div`
   margin-top: 10px;
   padding-left: 68px;
 `;
-const mnemonic =
-  "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
+// const mnemonic =
+//   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
 
-const provider = new HDWalletProvider(
-  mnemonic,
-  "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
-);
+// const provider = new HDWalletProvider(
+//   mnemonic,
+//   "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
+// );
 
 // let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 
@@ -213,60 +215,78 @@ const convertToCtbtc = async tbtcAmount => {
 //   );
 //   const [currentAccount] = await web3.eth.getAccounts();
 
-//   const exchangeContractInstance = new web3.eth.Contract(
-//     exchangeABI,
-//     exchangeAddress
-//   );
-//   await exchangeContractInstance.methods
-//     .ethToTokenSwapInput(
-//       formattedTrade.methodArguments[0],
-//       formattedTrade.methodArguments[1]
-//     )
-//     .send({ value: formattedTrade.value, from: currentAccount }, function(
-//       receipt
-//     ) {
-//       console.log(receipt);
-//     });
-// }
-// const tradeDetails: TradeDetails = getTradeDetails(TRADE_EXACT.OUTPUT, tradeAmount, marketDetails)
+const MobileCol = styled(Col)`
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+}
+`;
 
-// getMarkets();
-const sendWeb3Transaction = () => {
-  const { web3 } = window;
-  const value = web3.utils.toWei("0.01", "ether");
-  web3.eth.sendTransaction({
-    // From address will automatically be replaced by the address of current user
-    from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
-    to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
-    value
-  });
-};
+// const sendWeb3Transaction = () => {
+//   const { web3 } = window;
+//   const value = web3.utils.toWei("0.01", "ether");
+//   web3.eth.sendTransaction({
+//     // From address will automatically be replaced by the address of current user
+//     from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
+//     to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
+//     value
+//   });
+// };
 
 const toBtcSize = largeNum => largeNum / 100000000;
 
+const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
+  console.log(image, "image");
+  return (
+    <div style={{ display: "flex", marginRight: "10px", ...style }}>
+      <div style={{ display: "inline" }}>
+        <StyledNumber src={!stepDone ? image : Done} alt="first step" />
+        {loading && (
+          <CircularProgress
+            size="48px"
+            style={{
+              marginLeft: "-68px",
+              marginTop: "-11px",
+              marginRight: "10px"
+            }}
+          />
+        )}
+      </div>
+      <div style={{ marginTop: "11px", display: "inline" }}>
+        <HeaderText>{headerText}</HeaderText>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
+  const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-<<<<<<< HEAD
-  const [depositSatoshiAmount, setDepositSatoshiAmount] = useState();
-  // const [balances, ]
-  useLotsAndDepositHandler(setError, setLots, setTbtcHandler);
-=======
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
->>>>>>> 4675eb5812144da0c03d82c5f09bce607e85bd22
+  useBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting);
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,
     submitting,
     setSubmitting,
-    setDepositHandler
+    setDepositHandler,
+    setStep,
+    setLoading,
   );
+
+  // useEffect(() => {
+  //   if (step === 0 && !depositHandler){
+  //     setStep(1)
+  //   }
+  // }, [step, depositHandler])
 
   return (
     <Grommet theme={myTheme}>
@@ -274,23 +294,29 @@ const App = () => {
         pad="small"
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
-        {/* <Box direction="row" gap="medium" > */}
         <StyledHeading size="small" color="#1A5AFE">
           Convert BTC to TBTC
         </StyledHeading>
-        {/* <Anchor label="Profile" href="#" /> */}
-        {/* </Box> */}
       </Header>
+      <button
+        onClick={async () => {
+          await tbtcDepositSpace.public.remove("tbtc-deposit");
+        }}
+      >
+        Erase 3Box
+      </button>
       <Container style={{ paddingTop: "40px" }}>
         <Row>
-          <Col sm={2} xs={0}>
+          <MobileCol md={2} sm={0}>
             <StyledDots src={Dots} alt="dots for fun" />
-          </Col>
-          <Col sm={10} xs={12}>
-            <div>
-              <StyledNumber src={One} alt="first step" />
-              <HeaderText>Select deposit amount</HeaderText>
-            </div>
+          </MobileCol>
+          <Col md={10} sm={12}>
+            <StepComponent
+              image={One}
+              stepDone={step > 0}
+              headerText="Select deposit amount"
+              loading={step === 0 && loading}
+            />
             <UnderHeader>
               {lots.map((lot, i) => {
                 return (
@@ -317,8 +343,13 @@ const App = () => {
                 style={{
                   marginTop: "14px"
                 }}
-                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
-                onClick={async () => {
+                disabled={
+                  !depositSatoshiAmount ||
+                  depositSatoshiAmount.lte(0) ||
+                  step !== 0
+                }
+                onPress={async () => {
+                  setLoading(true)
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );
@@ -333,41 +364,20 @@ const App = () => {
                 } BTC Deposit`}
               </AwesomeButton>
             </UnderHeader>
-<<<<<<< HEAD
-            <p>
-              selected desosit amount:{" "}
-              {depositSatoshiAmount && depositSatoshiAmount.toString()}
-            </p>
-            <button
-              style={{
-                cursor:
-                  depositSatoshiAmount && depositSatoshiAmount.gt(0)
-                    ? "pointer"
-                    : "not-allowed"
-              }}
-              disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
-              onClick={async () => {
-                const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
-                  depositSatoshiAmount
-                );
-                setDepositHandler(deposit);
-              }}
-            >
-              Submit
-            </button>
+            <StepComponent
+              style={{ marginTop: "55px " }}
+              image={Two}
+              stepDone={step > 1}
+              headerText="Send BTC"
+              loading={false}
+            />
             <button onClick={approveCtbcContract}>Approve</button>
             <button onClick={convertToCtbtc}>Mint ctBtc</button>
-=======
-            <div style={{ marginTop: "55px" }}>
-              <StyledNumber src={Two} alt="first step" />
-              <HeaderText>Send BTC</HeaderText>
-            </div>
             <UnderHeader></UnderHeader>
             <QR
               shouldDisplay={depositHandler && depositHandler.address}
               depositHandler={depositHandler}
             />
->>>>>>> 4675eb5812144da0c03d82c5f09bce607e85bd22
           </Col>
         </Row>
       </Container>

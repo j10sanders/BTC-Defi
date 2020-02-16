@@ -3,8 +3,9 @@ import QRCode from "qrcode";
 
 export default ({ depositHandler }) => {
   const [bitcoinAddress, setBitcoinAddress] = useState("");
+  console.log("Deposit handler", depositHandler)
   useEffect(() => {
-    if (!bitcoinAddress && depositHandler) {
+    if (!bitcoinAddress && depositHandler && depositHandler.address) {
       depositHandler.bitcoinAddress.then(setBitcoinAddress);
     }
   }, [bitcoinAddress, depositHandler]);

@@ -55,11 +55,8 @@ import Fortmatic from "fortmatic";
 import Web3 from "web3";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-import CreateDeposits from "./CreateDeposits.js";
 import { AwesomeButton as StyleButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
-
-import HDWalletProvider from "@truffle/hdwallet-provider";
 
 import {
   useLotsAndTbtcHandler,
@@ -297,6 +294,7 @@ const App = () => {
   const [inputAmount, setInputAmount] = useState("0");
   const { currentAddress, balances, allowance } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
+  const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(
     depositHandler,
@@ -304,7 +302,8 @@ const App = () => {
     submitting,
     setStep,
     setLoading,
-    setTxInFlight
+    setTxInFlight,
+    setBitcoinDepositComplete
   );
   usePendingDeposit(
     tbtcHandler,
@@ -315,7 +314,8 @@ const App = () => {
     setStep,
     setLoading,
     setStep1SigsRequired,
-    setTxInFlight
+    setTxInFlight,
+    setBitcoinDepositComplete
   );
 
   return (

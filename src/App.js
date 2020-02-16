@@ -395,11 +395,14 @@ const App = () => {
             />
             <button onClick={approveCtbcContract}>Approve</button>
             <button onClick={convertToCtbtc}>Mint ctBtc</button>
-            <UnderHeader></UnderHeader>
-            <QR
-              shouldDisplay={depositHandler && depositHandler.address}
-              depositHandler={depositHandler}
-            />
+            {!txInFlight && (
+              <UnderHeader>
+                <QR
+                  shouldDisplay={depositHandler && depositHandler.address}
+                  depositHandler={depositHandler}
+                />
+              </UnderHeader>
+            )}
           </Col>
         </Row>
       </Container>

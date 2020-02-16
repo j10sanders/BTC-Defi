@@ -7,6 +7,7 @@ import Fortmatic from "fortmatic";
 import Web3 from "web3";
 const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
 const ctbtcTokenAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
+const exchangeAddress = "0x242E084657F5cdcF745C03684aAeC6E9b0bB85C5"; //ROPSTEN TBTC EXCHANGE
 var ctbtcABI = require("../ctbtcABI.json");
 var tbtcABI = require("../TBTCABI.json");
 
@@ -38,7 +39,8 @@ export const use3Box = setStep => {
 export const getAddressAndBalances = () => {
   const [currentAddress, setCurrentAddress] = useState("");
   const [balances, setBalances] = useState({ CTBTC: 0, TBTC: 0 });
-  const [allowance, setAllowance] = useState(0);
+  const [mintAllowance, setMintAllowance] = useState(0);
+  const [swapAllowance, setSwapAllowance] = useState(0);
   useEffect(() => {
     const fetchBalances = async () => {
       const [currentAccount] = await web3.eth.getAccounts();
@@ -55,10 +57,18 @@ export const getAddressAndBalances = () => {
           ctbtcABI,
           tbtcTokenAddress
         );
+        const ctbtcTokenContract = new web3.eth.Contract(
+          ctbtcABI,
+          ctbtcTokenAddress
+        );
         let result = await tbtcTokenContract.methods
-          .balanceOf(currentAccount)
+          .allowance(currentAccount, ctbtcTokenAddress)
           .call();
-        console.log("rresult", result);
+
+        let result1 = await tbtcTokenContract.methods
+          .allowance(currentAccount, exchangeAddress)
+          .call();
+        console.log("mint allowance", result, result1);
 
         setCurrentAddress(currentAccount);
         let CTBTC = await cTBTCContract.methods
@@ -67,16 +77,17 @@ export const getAddressAndBalances = () => {
         let TBTC = await TBTCTokenContract.methods
           .balanceOf(currentAccount)
           .call();
-        setBalances({ CTBTC, TBTC, result });
-        setAllowance(result);
-        console.log(TBTC, CTBTC, allowance);
+        setBalances({ CTBTC, TBTC, result, result1 });
+        setMintAllowance(result);
+        setSwapAllowance(result1);
+        console.log(TBTC, CTBTC, mintAllowance, swapAllowance);
       } else {
         console.error("Could not get current account");
       }
     };
     fetchBalances();
   }, []);
-  return { currentAddress, balances, allowance };
+  return { currentAddress, balances, mintAllowance, swapAllowance };
 };
 
 export const getLotsAndTbtcHandler = (setError, setLots, setTbtcHandler) => {

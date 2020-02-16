@@ -1,23 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { CircularProgress } from "@material-ui/core";
-import TBTC from "./tbtc.js/TBTC.js";
-import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
-import Dots from "./images/dots.svg";
-import One from "./images/one.svg";
-import Two from "./images/two.svg";
-import Done from "./images/done.svg";
-import {
-  Grommet,
-  Button,
-  Menu,
-  Box,
-  Anchor,
-  Heading,
-  Header,
-  RadioButton,
-  TextInput
-} from "grommet";
+import { Grommet, Heading, Header, RadioButton, TextInput } from "grommet";
 // import { grommet } from "grommet/themes";
 import QR from "./components/QRCode";
 import { determineHelperText } from "./utils";
@@ -27,15 +11,14 @@ import { determineHelperText } from "./utils";
 
 import {
   getTokenReserves,
-  getMarketDetails,
-  getTradeDetails,
-  TRADE_EXACT,
-  tradeExactEthForTokensWithData,
+  // getMarketDetails,
+  // getTradeDetails,
+  // TRADE_EXACT,
+  // tradeExactEthForTokensWithData,
   tradeExactTokensForEthWithData,
-  getExecutionDetails,
-  FACTORY_ABI
+  getExecutionDetails
+  // FACTORY_ABI
 } from "@uniswap/sdk";
-
 import { BigNumber } from "bignumber.js";
 // import {
 //   // Grid,
@@ -72,7 +55,7 @@ const AwesomeButton = styled(StyleButton)`
   --button-default-font-size: 14px;
   --button-default-border-radius: 6px;
   --button-horizontal-padding: 20px;
-  --button-raise-level: 5px;
+  /* --button-raise-level: 5px; */
   --button-hover-pressure: 2;
   --transform-speed: 0.185s;
   --button-primary-color: #3d66ff;
@@ -289,14 +272,14 @@ const MobileCol = styled(Col)`
 }
 `;
 
-const toBtcSize = largeNum => largeNum / 100000000;
+const toBtcSize = largeNum => new BigNumber(largeNum).shiftedBy(-8).toString();
 
 const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
   console.log(image, "image");
   return (
     <div style={{ display: "flex", marginRight: "10px", ...style }}>
       <div style={{ display: "inline" }}>
-        <StyledNumber src={!stepDone ? image : Done} alt="first step" />
+        <StyledNumber src={!stepDone ? image : "/done.svg"} alt="first step" />
         {loading && (
           <CircularProgress
             size="48px"
@@ -326,13 +309,12 @@ const App = () => {
   const [txInFlight, setTxInFlight] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
-  const [enabled, setEnabled] = useState([false]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const [inputAmount, setInputAmount] = useState("0");
-  const { currentAddress, balances, allowance } = getAddressAndBalances();
+  const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
@@ -365,24 +347,24 @@ const App = () => {
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
         <StyledHeading size="small" color="#1A5AFE">
-          Convert BTC to TBTC
+          Bitcoin Earn
         </StyledHeading>
       </Header>
-      <button
+      {/* <button
         onClick={async () => {
           await tbtcDepositSpace.public.remove("tbtc-deposit");
         }}
       >
         Erase 3Box
-      </button>
+      </button> */}
       <Container style={{ paddingTop: "40px" }}>
         <Row>
           <MobileCol md={2} sm={0}>
-            <StyledDots src={Dots} alt="dots for fun" />
+            <StyledDots src="/dot-grid-triangle.svg" alt="dots for fun" />
           </MobileCol>
           <Col md={10} sm={12}>
             <StepComponent
-              image={One}
+              image="/one.svg"
               stepDone={step > 0}
               headerText={determineHelperText(
                 step1SigsRequired,
@@ -395,19 +377,21 @@ const App = () => {
               <UnderHeader>
                 {lots && lots.length > 0 ? (
                   <>
-                    {lots.map((lot, i) => {
-                      return (
-                        <RadioButton
-                          key={i}
-                          checked={depositSatoshiAmount === lot}
-                          onChange={() => {
-                            setDepositSatoshiAmount(lot);
-                          }}
-                          label={`${toBtcSize(lot)} BTC`}
-                          name={`${toBtcSize(lot)} BTC`}
-                        />
-                      );
-                    })}
+                    {lots
+                      .sort((a, b) => a - b)
+                      .map((lot, i) => {
+                        return (
+                          <RadioButton
+                            key={i}
+                            checked={depositSatoshiAmount === lot}
+                            onChange={() => {
+                              setDepositSatoshiAmount(lot);
+                            }}
+                            label={`${toBtcSize(lot)} BTC`}
+                            name={`${toBtcSize(lot)} BTC`}
+                          />
+                        );
+                      })}
                   </>
                 ) : (
                   <div>
@@ -457,10 +441,10 @@ const App = () => {
             )}
             <StepComponent
               style={{ marginTop: "55px " }}
-              image={Two}
+              image="/two.svg"
               stepDone={step > 1}
               headerText="Send BTC"
-              loading={false}
+              loading={txInFlight && !bitcoinDepositComplete}
             />
             {!txInFlight && (
               <UnderHeader>
@@ -470,51 +454,74 @@ const App = () => {
                 />
               </UnderHeader>
             )}
-            <div>
-              <h1> {`Current Address: ${currentAddress}`}</h1>
-              <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
-              <h1> {`Allowance: ${balances.result}`}</h1>
-              <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
-            </div>
-            <AwesomeButton
-              onPress={() => {
-                approveCtbcContract(currentAddress);
-              }}
-              style={{
-                marginTop: "14px"
-              }}
-            >
-              Enable cTBTC Minting
-            </AwesomeButton>
-            <AwesomeButton
-              onPress={() => {
-                approveUniswapContract(currentAddress);
-              }}
-              style={{
-                marginTop: "14px"
-              }}
-            >
-              Enable Uniswap trading
-            </AwesomeButton>
-            <TextInput
-              label="Input amount"
-              value={inputAmount}
-              onChange={event => setInputAmount(event.target.value)}
+            <StepComponent
+              style={{ marginTop: "55px" }}
+              image="/three.svg"
+              stepDone={false}
+              headerText="Go into DeFi"
+              loading={false}
             />
-            <AwesomeButton
-              onPress={() => {
-                useTbtcToMintCtbtc(currentAddress, inputAmount);
-              }}
-            >
-              Mint cTBtc
-            </AwesomeButton>
-            <AwesomeButton
-              onPress={() => {
-                convertTBTCtoETH(currentAddress, inputAmount);
-              }}
-            >
-              Swap TBTC for ETH
-            </AwesomeButton>
+            {step === 2 && (
+              <UnderHeader>
+                <div style={{ marginBottom: "20px" }}>
+                  <div>{`TBTC Balance: ${balances.TBTC}`}</div>
+                  <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
+                </div>
+                <div style={{ marginBottom: "20px" }}>
+                  <AwesomeButton
+                    onPress={() => {
+                      approveCtbcContract(currentAddress);
+                    }}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Enable CTBTC Minting
+                  </AwesomeButton>
+                  <AwesomeButton
+                    onPress={() => {
+                      approveUniswapContract(currentAddress);
+                    }}
+                  >
+                    Enable Uniswap trading
+                  </AwesomeButton>
+                </div>
+                <div style={{ width: "200px" }}>
+                  <TextInput
+                    label="Input amount"
+                    size="small"
+                    value={inputAmount}
+                    onChange={event => setInputAmount(event.target.value)}
+                  />
+                </div>
+                <div style={{ marginTop: "20px" }}>
+                  <AwesomeButton
+                    onPress={() => {
+                      useTbtcToMintCtbtc(currentAddress, inputAmount);
+                    }}
+                    disabled={
+                      !balances.result ||
+                      balances.result === "0" ||
+                      !currentAddress
+                    }
+                    style={{ marginRight: "10px" }}
+                  >
+                    Mint cTBtc
+                  </AwesomeButton>
+                  <AwesomeButton
+                    onPress={() => {
+                      convertTBTCtoETH(currentAddress, inputAmount);
+                    }}
+                    disabled={
+                      !balances.result1 ||
+                      balances.result1 === "0" ||
+                      !currentAddress
+                    }
+                    style={{ marginRight: "10px" }}
+                  >
+                    Swap TBTC for ETH
+                  </AwesomeButton>
+                </div>
+              </UnderHeader>
+            )}
           </Col>
         </Row>
       </Container>

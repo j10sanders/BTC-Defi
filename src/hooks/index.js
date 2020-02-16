@@ -6,20 +6,9 @@ import BitcoinHelpers from "../tbtc.js/BitcoinHelpers";
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
 const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
-const cbtcTokenAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
+const ctbtcTokenAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
 var ctbtcABI = require("../ctbtcABI.json");
 var tbtcABI = require("../TBTCABI.json");
-console.log("ABI1", ctbtcABI);
-console.log("ABI2", tbtcABI);
-
-// import HDWalletProvider from "@truffle/hdwallet-provider";
-// const mnemonic =
-//   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
-
-// const provider = new HDWalletProvider(
-//   mnemonic,
-//   "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
-// );
 
 let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 const provider = fm.getProvider();
@@ -49,28 +38,27 @@ export const use3Box = setStep => {
 export const getAddressAndBalances = () => {
   const [currentAddress, setCurrentAddress] = useState("");
   const [balances, setBalances] = useState({ CTBTC: 0, TBTC: 0 });
-  const [canMint, setCanMint] = useState(false);
+  const [allowance, setAllowance] = useState(0);
   useEffect(() => {
     const fetchBalances = async () => {
       const [currentAccount] = await web3.eth.getAccounts();
-      const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
+      const cTBTCContract = new web3.eth.Contract(ctbtcABI, ctbtcTokenAddress);
       const TBTCTokenContract = new web3.eth.Contract(
         tbtcABI,
         tbtcTokenAddress
       );
-
+      console.log("CURRENT ACCOUNT", currentAccount);
       if (currentAccount) {
-        const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
-        var ctbtcABI = require("../ctbtcABI.json");
+        console.log("CURRENT ACCOUNT2", currentAccount);
         console.log("ABI", ctbtcABI);
-        // const tbtcTokenContract = new web3.eth.Contract(
-        //   ctbtcABI,
-        //   tbtcTokenAddress
-        // );
-        // let result = await tbtcTokenContract.methods
-        //   .balanceOf(currentAccount)
-        //   .call();
-        // console.log(result);
+        const tbtcTokenContract = new web3.eth.Contract(
+          ctbtcABI,
+          tbtcTokenAddress
+        );
+        let result = await tbtcTokenContract.methods
+          .balanceOf(currentAccount)
+          .call();
+        console.log("rresult", result);
 
         setCurrentAddress(currentAccount);
         let CTBTC = await cTBTCContract.methods
@@ -79,15 +67,16 @@ export const getAddressAndBalances = () => {
         let TBTC = await TBTCTokenContract.methods
           .balanceOf(currentAccount)
           .call();
-        setBalances({ CTBTC, TBTC });
-        console.log(TBTC, CTBTC, currentAccount);
+        setBalances({ CTBTC, TBTC, result });
+        setAllowance(result);
+        console.log(TBTC, CTBTC, allowance);
       } else {
         console.error("Could not get current account");
       }
     };
     fetchBalances();
   }, []);
-  return { currentAddress, balances };
+  return { currentAddress, balances, allowance };
 };
 
 export const getLotsAndTbtcHandler = (setError, setLots, setTbtcHandler) => {

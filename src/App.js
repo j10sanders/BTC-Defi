@@ -202,6 +202,19 @@ const useTbtcToMintCtbtc = async (currentAddress, inputAmount) => {
   }
 };
 
+const approveUniswapContract = async currentAddress => {
+  const tbtcTokenContract = new web3.eth.Contract(ctbtcABI, tbtcTokenAddress);
+  let receipt;
+  try {
+    receipt = await tbtcTokenContract.methods
+      .approve(exchangeAddress, web3.utils.toBN(10e18))
+      .send({ from: currentAddress });
+  } catch (err) {
+    console.error("Error approving Uniswap", err);
+  }
+  console.log(receipt);
+};
+
 // async function getMarkets() {
 //   const _purchaseAmount = new BigNumber("3");
 //   // const _purchaseAmount: BigNumber = new BigNumber('2.5')
@@ -274,7 +287,6 @@ const App = () => {
   const [txInFlight, setTxInFlight] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
-  const [enabled, setEnabled] = useState([false]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -283,7 +295,6 @@ const App = () => {
   const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
-  const [mintAllowed, setMintAllowed] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(
     depositHandler,
@@ -419,7 +430,6 @@ const App = () => {
                 />
               </UnderHeader>
             )}
-
             <StepComponent
               style={{ marginTop: "55px" }}
               image={Three}
@@ -431,18 +441,14 @@ const App = () => {
             <UnderHeader>
               <div>{`Current Address: ${currentAddress}`}</div>
               <div>{`TBTC Balance: ${balances.TBTC}`}</div>
+              <div>{`Allowance: ${balances.result}`}</div>
               <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
               <AwesomeButton
                 onPress={() => {
                   approveCtbcContract(currentAddress);
-                  setMintAllowed(true);
                 }}
-                style={{
-                  marginTop: "14px"
-                }}
-                disabled={!currentAddress}
               >
-                Enable cTBTC Minting
+                Enable CTBTC Minting
               </AwesomeButton>
               <div style={{ width: "200px" }}>
                 <TextInput
@@ -456,9 +462,16 @@ const App = () => {
                 onPress={() => {
                   useTbtcToMintCtbtc(currentAddress, inputAmount);
                 }}
-                disabled={!mintAllowed}
+                disabled={balances.result && currentAddress}
               >
                 Mint cTBtc
+              </AwesomeButton>
+              <AwesomeButton
+                onPress={() => {
+                  approveUniswapContract(currentAddress);
+                }}
+              >
+                Enable Uniswap trading
               </AwesomeButton>
             </UnderHeader>
             {/* )} */}

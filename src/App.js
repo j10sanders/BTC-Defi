@@ -4,6 +4,7 @@ import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
 import Dots from "./images/dots.svg";
 import One from "./images/one.svg";
+import Two from "./images/two.svg";
 import {
   Grommet,
   Button,
@@ -29,7 +30,7 @@ import { grommet } from "grommet/themes";
 //   Button
 // } from "@material-ui/core";
 import "./App.css";
-import convertToCTBTC from './tbtc.js/ctbtc.js'
+import convertToCTBTC from "./tbtc.js/ctbtc.js";
 // import Header from './components/Header'
 // import Error from './components/Error'
 // import Gravatars from './components/Gravatars'
@@ -39,6 +40,8 @@ import Web3 from "web3";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import CreateDeposits from "./CreateDeposits.js";
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 
 import HDWalletProvider from "@truffle/hdwallet-provider";
 
@@ -47,13 +50,13 @@ import { useLotsAndDepositHandler, useBTCDepositListeners } from "./hooks";
 const myTheme = {
   radioButton: {
     check: {
-      color: '#1A5AFE',
-    },
+      color: "#1A5AFE"
+    }
   },
   global: {
     font: {
       family: "Rubik, sans-serif !important"
-    },
+    }
   }
 };
 
@@ -83,8 +86,9 @@ const StyledHeading = styled(Heading)`
 `;
 
 const UnderHeader = styled.div`
+  margin-top: 10px;
   padding-left: 68px;
-`
+`;
 const mnemonic =
   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
 
@@ -126,13 +130,15 @@ const sendWeb3Transaction = () => {
   });
 };
 
+const toBtcSize = largeNum => largeNum / 100000000;
+
 const App = () => {
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState({});
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-  const [depositSatoshiAmount, setDepositSatoshiAmount] = useState();
+  const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   useLotsAndDepositHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting);
 
@@ -144,7 +150,7 @@ const App = () => {
       >
         {/* <Box direction="row" gap="medium" > */}
         <StyledHeading size="small" color="#1A5AFE">
-          tBTC
+          Convert BTC to TBTC
         </StyledHeading>
         {/* <Anchor label="Profile" href="#" /> */}
         {/* </Box> */}
@@ -157,7 +163,7 @@ const App = () => {
           <Col sm={10} xs={12}>
             <div>
               <StyledNumber src={One} alt="first step" />
-              <HeaderText>Convert BTC to TBTC</HeaderText>
+              <HeaderText>Select deposit amount</HeaderText>
             </div>
             <UnderHeader>
               {lots.map((lot, i) => {
@@ -168,32 +174,39 @@ const App = () => {
                     onChange={() => {
                       setDepositSatoshiAmount(lot);
                     }}
-                    label={lot.toString()}
+                    label={`${toBtcSize(lot)} BTC`}
+                    name={`${toBtcSize(lot)} BTC`}
                   />
                 );
               })}
+              {depositSatoshiAmount && (
+                <>
+                  <div style={{ paddingTop: "20px" }}>
+                    Once you click “create deposit”, you’ll be prompted twice to
+                    sign messages.
+                  </div>
+                </>
+              )}
+              <AwesomeButton
+                style={{
+                  marginTop: "14px"
+                }}
+                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
+                onClick={async () => {
+                  const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
+                    depositSatoshiAmount
+                  );
+                  setDepositHandler(deposit);
+                }}
+              >
+                {`Create ${depositSatoshiAmount ? toBtcSize(depositSatoshiAmount) : ''} BTC Deposit`}
+              </AwesomeButton>
             </UnderHeader>
-            <p>
-              selected desosit amount:{" "}
-              {depositSatoshiAmount && depositSatoshiAmount.toString()}
-            </p>
-            <button
-              style={{
-                cursor:
-                  depositSatoshiAmount && depositSatoshiAmount.gt(0)
-                    ? "pointer"
-                    : "not-allowed"
-              }}
-              disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
-              onClick={async () => {
-                const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
-                  depositSatoshiAmount
-                );
-                setDepositHandler(deposit);
-              }}
-            >
-              Submit
-            </button>
+            <div style={{ marginTop: "55px" }}>
+              <StyledNumber src={Two} alt="first step" />
+              <HeaderText>Send BTC</HeaderText>
+            </div>
+            <UnderHeader></UnderHeader>
           </Col>
         </Row>
       </Container>

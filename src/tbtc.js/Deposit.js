@@ -694,6 +694,7 @@ export default class Deposit {
   async findOrWaitForPublicKeyPoint(cb = () => {}) {
     let signerPubkeyEvent = await this.readPublishedPubkeyEvent();
     if (signerPubkeyEvent) {
+      cb(0);
       console.log(
         `Found existing Bitcoin address for deposit ${this.address}...`
       );

@@ -56,7 +56,7 @@ import Web3 from "web3";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import CreateDeposits from "./CreateDeposits.js";
-import { AwesomeButton } from "react-awesome-button";
+import { AwesomeButton as StyleButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 
 import HDWalletProvider from "@truffle/hdwallet-provider";
@@ -68,6 +68,31 @@ import {
   use3Box,
   getAddressAndBalances
 } from "./hooks";
+
+const AwesomeButton = styled(StyleButton)`
+  --button-default-height: 48px;
+  --button-default-font-size: 14px;
+  --button-default-border-radius: 6px;
+  --button-horizontal-padding: 20px;
+  --button-raise-level: 5px;
+  --button-hover-pressure: 2;
+  --transform-speed: 0.185s;
+  --button-primary-color: #3d66ff;
+  --button-primary-color-dark: #2a3143;
+  --button-primary-color-light: #d4d9e4;
+  --button-primary-color-hover: #213fad;
+  --button-primary-border: none;
+  --button-secondary-color: #fffc6c;
+  --button-secondary-color-dark: #b9b500;
+  --button-secondary-color-light: #6c6a00;
+  --button-secondary-color-hover: #fffb3e;
+  --button-secondary-border: none;
+  --button-anchor-color: #f3c8ad;
+  --button-anchor-color-dark: #734922;
+  --button-anchor-color-light: #4c3016;
+  --button-anchor-color-hover: #f1bfa0;
+  --button-anchor-border: 1px solid #8c633c;
+`;
 
 const web3 = new Web3(window.ethereum);
 const myTheme = {
@@ -209,17 +234,6 @@ const MobileCol = styled(Col)`
 }
 `;
 
-// const sendWeb3Transaction = () => {
-//   const { web3 } = window;
-//   const value = web3.utils.toWei("0.01", "ether");
-//   web3.eth.sendTransaction({
-//     // From address will automatically be replaced by the address of current user
-//     from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
-//     to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
-//     value
-//   });
-// };
-
 const toBtcSize = largeNum => largeNum / 100000000;
 
 const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
@@ -247,13 +261,14 @@ const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
 };
 
 const App = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1);
   const [loading, setLoading] = useState(false);
   const [step1SigsRequired, setStep1SigsRequired] = useState(2);
   const [
     submittedInitialDepositAmount,
     setSubmittedInitialDepositAmount
   ] = useState(false);
+  const [txInFlight, setTxInFlight] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [enabled, setEnabled] = useState([false]);
@@ -270,7 +285,8 @@ const App = () => {
     setSubmitting,
     submitting,
     setStep,
-    setLoading
+    setLoading,
+    setTxInFlight
   );
   usePendingDeposit(
     tbtcHandler,
@@ -280,28 +296,9 @@ const App = () => {
     setDepositHandler,
     setStep,
     setLoading,
-    setStep1SigsRequired
+    setStep1SigsRequired,
+    setTxInFlight
   );
-  // useEffect(async ()=>{
-  //   try {
-  //     if(window.)
-  //     // Request account access
-  //     await web3.ethereum.enable();
-  //     setEnabled(true)
-
-  //   } catch (error) {
-  //     // User denied account access...
-  //     console.error("User denied account access")
-  //   }
-  // }, [enabled])
-
-  console.log("step1SigsRequired", step1SigsRequired);
-
-  // useEffect(() => {
-  //   if (step === 0 && !depositHandler){
-  //     setStep(1)
-  //   }
-  // }, [step, depositHandler])
 
   return (
     <Grommet theme={myTheme}>
@@ -336,57 +333,70 @@ const App = () => {
               )}
               loading={step === 0 && loading}
             />
-            <UnderHeader>
-              {lots.map((lot, i) => {
-                return (
-                  <RadioButton
-                    key={i}
-                    checked={depositSatoshiAmount === lot}
-                    onChange={() => {
-                      setDepositSatoshiAmount(lot);
-                    }}
-                    label={`${toBtcSize(lot)} BTC`}
-                    name={`${toBtcSize(lot)} BTC`}
-                  />
-                );
-              })}
-              {depositSatoshiAmount && (
-                <>
-                  <div style={{ paddingTop: "20px" }}>
-                    Once you click “create deposit”, you’ll be prompted twice to
-                    sign messages.
+            {step1SigsRequired > 1 && (
+              <UnderHeader>
+                {lots && lots.length > 0 ? (
+                  <>
+                    {lots.map((lot, i) => {
+                      return (
+                        <RadioButton
+                          key={i}
+                          checked={depositSatoshiAmount === lot}
+                          onChange={() => {
+                            setDepositSatoshiAmount(lot);
+                          }}
+                          label={`${toBtcSize(lot)} BTC`}
+                          name={`${toBtcSize(lot)} BTC`}
+                        />
+                      );
+                    })}
+                  </>
+                ) : (
+                  <div>
+                    <CircularProgress />
                   </div>
-                </>
-              )}
-              <AwesomeButton
-                style={{
-                  marginTop: "14px"
-                  // padding: "20px"
-                }}
-                disabled={
-                  !depositSatoshiAmount ||
-                  depositSatoshiAmount.lte(0) ||
-                  step !== 0 ||
-                  loading
-                }
-                onPress={async () => {
-                  setLoading(true);
-                  setSubmittedInitialDepositAmount(true);
-                  const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
-                    depositSatoshiAmount,
-                    setStep1SigsRequired
-                  );
-                  console.log("got deposit");
-                  tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);
-                  console.log("set in 3box space");
-                  setDepositHandler(deposit);
-                }}
-              >
-                {`Create ${
-                  depositSatoshiAmount ? toBtcSize(depositSatoshiAmount) : ""
-                } BTC Deposit`}
-              </AwesomeButton>
-            </UnderHeader>
+                )}
+                {depositSatoshiAmount && (
+                  <>
+                    <div style={{ paddingTop: "20px" }}>
+                      Once you click “create deposit”, you’ll be prompted twice
+                      to sign messages.
+                    </div>
+                  </>
+                )}
+                <AwesomeButton
+                  button-default-border-radius="6px"
+                  style={{
+                    marginTop: "14px"
+                    // padding: "20px"
+                  }}
+                  disabled={
+                    !depositSatoshiAmount ||
+                    depositSatoshiAmount.lte(0) ||
+                    step !== 0
+                  }
+                  onPress={async () => {
+                    setLoading(true);
+                    setSubmittedInitialDepositAmount(true);
+                    const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
+                      depositSatoshiAmount,
+                      setStep1SigsRequired
+                    );
+                    console.log("got deposit");
+                    tbtcDepositSpace.public.set(
+                      "tbtc-deposit",
+                      deposit.address
+                    );
+                    console.log("set in 3box space");
+                    setDepositHandler(deposit);
+                  }}
+                >
+                  {`Create ${
+                    depositSatoshiAmount ? toBtcSize(depositSatoshiAmount) : ""
+                  } BTC Deposit`}
+                </AwesomeButton>
+              </UnderHeader>
+            )}
             <StepComponent
               style={{ marginTop: "55px " }}
               image={Two}
@@ -394,11 +404,14 @@ const App = () => {
               headerText="Send BTC"
               loading={false}
             />
-            <UnderHeader></UnderHeader>
-            <QR
-              shouldDisplay={depositHandler && depositHandler.address}
-              depositHandler={depositHandler}
-            />
+            {!txInFlight && (
+              <UnderHeader>
+                <QR
+                  shouldDisplay={depositHandler && depositHandler.address}
+                  depositHandler={depositHandler}
+                />
+              </UnderHeader>
+            )}
             <div>
               <AwesomeButton
                 onPress={approveCtbcContract(currentAddress)}

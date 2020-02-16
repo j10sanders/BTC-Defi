@@ -120,7 +120,8 @@ export const registerBTCDepositListeners = (
   setSubmitting,
   submitting,
   setStep,
-  setLoading
+  setLoading,
+  setTxInFlight
 ) => {
   const registerBtcTxListener = () => {
     console.log("BITCOIN TX LISTENER IS ABOUT TO GET REGISTERED");
@@ -130,7 +131,13 @@ export const registerBTCDepositListeners = (
       console.log(tbtc, "SUCCESS!");
     });
     depositHandler.bitcoinAddress.then(address =>
-      onBTCAddressResolution(address, depositHandler, setStep, setLoading)
+      onBTCAddressResolution(
+        address,
+        depositHandler,
+        setStep,
+        setLoading,
+        setTxInFlight
+      )
     );
   };
   if (depositHandler && !submitting) registerBtcTxListener();
@@ -140,7 +147,8 @@ const onBTCAddressResolution = async (
   address,
   depositHandler,
   setStep,
-  setLoading
+  setLoading,
+  setTxInFlight
 ) => {
   console.log("BITCOIN ADDRESS JUST RESOLVED ", address);
   setStep(1);
@@ -151,8 +159,8 @@ const onBTCAddressResolution = async (
     address,
     expectedValue
   );
-
   console.log("found tx", tx);
+  setTxInFlight(true);
 
   const requiredConfirmations = (
     await depositHandler.factory.constantsContract.getTxProofDifficultyFactor()
@@ -193,7 +201,8 @@ export const usePendingDeposit = (
   setDepositHandler,
   setStep,
   setLoading,
-  setStep1SigsRequired
+  setStep1SigsRequired,
+  setTxInFlight
 ) => {
   useEffect(() => {
     const listenForPendingDeposits = async () => {
@@ -208,7 +217,13 @@ export const usePendingDeposit = (
         console.log(tbtc, "SUCCESS!");
       });
       depositHandler.bitcoinAddress.then(address =>
-        onBTCAddressResolution(address, depositHandler, setStep, setLoading)
+        onBTCAddressResolution(
+          address,
+          depositHandler,
+          setStep,
+          setLoading,
+          setTxInFlight
+        )
       );
     };
     if (tbtcHandler && depositAddress && !submitting) {
@@ -232,7 +247,8 @@ export const useBTCDepositListeners = (
   setSubmitting,
   submitting,
   setStep,
-  setLoading
+  setLoading,
+  setTxInFlight
 ) =>
   useEffect(
     () =>
@@ -241,7 +257,8 @@ export const useBTCDepositListeners = (
         setSubmitting,
         submitting,
         setStep,
-        setLoading
+        setLoading,
+        setTxInFlight
       ),
     [depositHandler, submitting, setSubmitting]
   );

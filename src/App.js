@@ -281,6 +281,7 @@ const App = () => {
   const [inputAmount, setInputAmount] = useState("0");
   const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
+  const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(
     depositHandler,
@@ -288,7 +289,8 @@ const App = () => {
     submitting,
     setStep,
     setLoading,
-    setTxInFlight
+    setTxInFlight,
+    setBitcoinDepositComplete
   );
   usePendingDeposit(
     tbtcHandler,
@@ -299,7 +301,8 @@ const App = () => {
     setStep,
     setLoading,
     setStep1SigsRequired,
-    setTxInFlight
+    setTxInFlight,
+    setBitcoinDepositComplete
   );
 
   return (

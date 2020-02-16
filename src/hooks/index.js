@@ -135,7 +135,8 @@ export const registerBTCDepositListeners = (
   submitting,
   setStep,
   setLoading,
-  setTxInFlight
+  setTxInFlight,
+  setBitcoinDepositComplete
 ) => {
   const registerBtcTxListener = () => {
     console.log("BITCOIN TX LISTENER IS ABOUT TO GET REGISTERED");
@@ -143,6 +144,7 @@ export const registerBTCDepositListeners = (
     depositHandler.onActive(async () => {
       const tbtc = await depositHandler.mintTBTC();
       console.log(tbtc, "SUCCESS!");
+      setBitcoinDepositComplete(true);
     });
     depositHandler.bitcoinAddress.then(address =>
       onBTCAddressResolution(
@@ -216,7 +218,8 @@ export const usePendingDeposit = (
   setStep,
   setLoading,
   setStep1SigsRequired,
-  setTxInFlight
+  setTxInFlight,
+  setBitcoinDepositComplete
 ) => {
   useEffect(() => {
     const listenForPendingDeposits = async () => {
@@ -229,6 +232,7 @@ export const usePendingDeposit = (
       depositHandler.onActive(async () => {
         const tbtc = await depositHandler.mintTBTC();
         console.log(tbtc, "SUCCESS!");
+        setBitcoinDepositComplete(true);
       });
       depositHandler.bitcoinAddress.then(address =>
         onBTCAddressResolution(
@@ -262,7 +266,8 @@ export const useBTCDepositListeners = (
   submitting,
   setStep,
   setLoading,
-  setTxInFlight
+  setTxInFlight,
+  setBitcoinDepositComplete
 ) =>
   useEffect(
     () =>
@@ -272,7 +277,8 @@ export const useBTCDepositListeners = (
         submitting,
         setStep,
         setLoading,
-        setTxInFlight
+        setTxInFlight,
+        setBitcoinDepositComplete
       ),
     [depositHandler, submitting, setSubmitting]
   );

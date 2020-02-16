@@ -28,6 +28,7 @@ const ECDSAKeepContract = TruffleContract(ECDSAKeepJSON);
 
 export class DepositFactory {
   // config/*: TBTCConfig*/;
+
   // constantsContract/*: any */;
   // systemContract/*: any*/;
   // tokenContract/*: any */;
@@ -175,7 +176,7 @@ export default class Deposit {
     factory /*: DepositFactory*/,
     satoshiLotSize /*: BN*/
   ) /*: Promise<Deposit>*/ {
-    console.debug(
+    console.log(
       "Creating new deposit contract with lot size",
       satoshiLotSize.toNumber(),
       "satoshis..."
@@ -184,7 +185,7 @@ export default class Deposit {
       depositAddress,
       keepAddress
     } = await factory.createNewDepositContract(satoshiLotSize);
-    console.debug(
+    console.log(
       `Looking up new deposit with address ${depositAddress} backed by ` +
         `keep at address ${keepAddress}...`
     );
@@ -200,10 +201,10 @@ export default class Deposit {
     factory /*: DepositFactory*/,
     address /*: string*/
   ) /*: Promise<Deposit>*/ {
-    console.debug(`Looking up Deposit contract at address ${address}...`);
+    console.log(`Looking up Deposit contract at address ${address}...`);
     const contract = await DepositContract.at(address);
 
-    console.debug(`Looking up Created event for deposit ${address}...`);
+    console.log(`Looking up Created event for deposit ${address}...`);
     const createdEvent = await EthereumHelpers.getExistingEvent(
       factory.systemContract,
       "Created",
@@ -215,7 +216,7 @@ export default class Deposit {
       );
     }
 
-    console.debug(`Found keep address ${createdEvent.args._keepAddress}.`);
+    console.log(`Found keep address ${createdEvent.args._keepAddress}.`);
     ECDSAKeepContract.setProvider(factory.config.web3.currentProvider);
     const keepContract = await ECDSAKeepContract.at(
       createdEvent.args._keepAddress
@@ -249,7 +250,6 @@ export default class Deposit {
     this.activeStatePromise = this.waitForActiveState();
 
     this.publicKeyPoint = this.findOrWaitForPublicKeyPoint();
-    //    this.bitcoinAddress = Promise.resolve('tb1q7jlzs5mtlfamcr5ew7dw9x7u4hgv72g3qghht8')
     this.bitcoinAddress = this.publicKeyPoint.then(
       this.publicKeyPointToBitcoinAddress.bind(this)
     );
@@ -346,7 +346,7 @@ export default class Deposit {
       );
     }
 
-    console.debug(
+    console.log(
       `Approving transfer of deposit ${this.address} TDT to Vending Machine...`
     );
     await this.factory.depositTokenContract.approve(
@@ -355,7 +355,7 @@ export default class Deposit {
       { from: this.factory.config.web3.eth.defaultAccount }
     );
 
-    console.debug(`Minting TBTC...`);
+    console.log(`Minting TBTC...`);
     const transaction = await this.factory.vendingMachineContract.tdtToTbtc(
       this.address,
       { from: this.factory.config.web3.eth.defaultAccount }
@@ -369,7 +369,7 @@ export default class Deposit {
       "Transfer"
     );
 
-    console.debug(`Found Transfer event for`, transferEvent.value, `TBTC.`);
+    console.log(`Found Transfer event for`, transferEvent.value, `TBTC.`);
     return transferEvent.value;
   }
 
@@ -411,7 +411,7 @@ export default class Deposit {
       );
     }
 
-    console.debug(
+    console.log(
       `Approving transfer of deposit ${this.address} TDT to Vending Machine...`
     );
     await this.factory.depositTokenContract.approve(
@@ -420,7 +420,7 @@ export default class Deposit {
       { from: this.factory.config.web3.eth.defaultAccount }
     );
 
-    console.debug(
+    console.log(
       `Qualifying and minting off of deposit ${this.address} for ` +
         `Bitcoin transaction ${tx.transactionID}...`,
       tx,
@@ -519,7 +519,7 @@ export default class Deposit {
     }
 
     const toBN = this.factory.config.web3.utils.toBN;
-    console.debug(
+    console.log(
       `Looking up UTXO size and transaction fee for redemption transaction...`
     );
     const transactionFee = await BitcoinHelpers.Transaction.estimateFee(
@@ -531,7 +531,7 @@ export default class Deposit {
 
     let transaction;
     if (inVendingMachine) {
-      console.debug(
+      console.log(
         `Approving transfer of ${redemptionCost} to the vending machine....`
       );
       this.factory.tokenContract.approve(
@@ -540,7 +540,7 @@ export default class Deposit {
         { from: thisAccount }
       );
 
-      console.debug(
+      console.log(
         `Initiating redemption of deposit ${this.address} from ` +
           `vending machine...`
       );
@@ -552,14 +552,12 @@ export default class Deposit {
         { from: thisAccount }
       );
     } else {
-      console.debug(
-        `Approving transfer of ${redemptionCost} to the deposit...`
-      );
+      console.log(`Approving transfer of ${redemptionCost} to the deposit...`);
       this.factory.tokenContract.approve(this.address, redemptionCost, {
         from: thisAccount
       });
 
-      console.debug(`Initiating redemption from deposit ${this.address}...`);
+      console.log(`Initiating redemption from deposit ${this.address}...`);
       transaction = await this.contract.requestRedemption(
         outputValueBytes,
         redeemerPKH,
@@ -636,7 +634,7 @@ export default class Deposit {
     this.bitcoinAddress.then(async address => {
       const expectedValue = (await this.getSatoshiLotSize()).toNumber();
 
-      console.debug(
+      console.log(
         `Monitoring Bitcoin for transaction to address ${address}...`
       );
       const tx = await BitcoinHelpers.Transaction.findOrWaitFor(
@@ -649,7 +647,7 @@ export default class Deposit {
         await this.factory.constantsContract.getTxProofDifficultyFactor()
       ).toNumber();
 
-      console.debug(
+      console.log(
         `Waiting for ${requiredConfirmations} confirmations for ` +
           `Bitcoin transaction ${tx.transactionID}...`
       );
@@ -658,7 +656,7 @@ export default class Deposit {
         requiredConfirmations
       );
 
-      console.debug(
+      console.log(
         `Submitting funding proof to deposit ${this.address} for ` +
           `Bitcoin transaction ${tx.transactionID}...`
       );
@@ -685,7 +683,7 @@ export default class Deposit {
   async findOrWaitForPublicKeyPoint() {
     let signerPubkeyEvent = await this.readPublishedPubkeyEvent();
     if (signerPubkeyEvent) {
-      console.debug(
+      console.log(
         `Found existing Bitcoin address for deposit ${this.address}...`
       );
       return {
@@ -694,12 +692,12 @@ export default class Deposit {
       };
     }
 
-    console.debug(`Waiting for deposit ${this.address} keep public key...`);
+    console.log(`Waiting for deposit ${this.address} keep public key...`);
 
     // Wait for the Keep to be ready.
     await EthereumHelpers.getEvent(this.keepContract, "PublicKeyPublished");
 
-    console.debug(
+    console.log(
       `Waiting for deposit ${this.address} to retrieve public key...`
     );
     // Ask the deposit to fetch and store the signer pubkey.
@@ -707,7 +705,7 @@ export default class Deposit {
       from: this.factory.config.web3.eth.defaultAccount
     });
 
-    console.debug(`Found public key for deposit ${this.address}...`);
+    console.log(`Found public key for deposit ${this.address}...`);
     const {
       _signingGroupPubkeyX,
       _signingGroupPubkeyY
@@ -732,9 +730,7 @@ export default class Deposit {
       return true;
     }
 
-    console.debug(
-      `Monitoring deposit ${this.address} for transition to ACTIVE.`
-    );
+    console.log(`Monitoring deposit ${this.address} for transition to ACTIVE.`);
 
     // If we weren't active, wait for Funded, then mark as active.
     // FIXME/NOTE: We could be inactive due to being outside of the funding
@@ -742,7 +738,7 @@ export default class Deposit {
     await EthereumHelpers.getEvent(this.factory.systemContract, "Funded", {
       _depositContractAddress: this.address
     });
-    console.debug(`Deposit ${this.address} transitioned to ACTIVE.`);
+    console.log(`Deposit ${this.address} transitioned to ACTIVE.`);
 
     return true;
   }

@@ -45,7 +45,6 @@ import { BigNumber } from "bignumber.js";
 //   Button
 // } from "@material-ui/core";
 import "./App.css";
-import convertToCTBTC from "./tbtc.js/ctbtc.js";
 // import Header from './components/Header'
 // import Error from './components/Error'
 // import Gravatars from './components/Gravatars'
@@ -262,15 +261,22 @@ const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
 const App = () => {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [step1SigsRequired, setStep1SigsRequired] = useState(2);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
-  const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
+  const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
-  useBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading);
+  useBTCDepositListeners(
+    depositHandler,
+    setSubmitting,
+    submitting,
+    setStep,
+    setLoading
+  );
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,
@@ -278,7 +284,7 @@ const App = () => {
     setSubmitting,
     setDepositHandler,
     setStep,
-    setLoading,
+    setLoading
   );
 
   // useEffect(() => {
@@ -340,16 +346,17 @@ const App = () => {
               )}
               <AwesomeButton
                 style={{
-                  marginTop: "14px",
+                  marginTop: "14px"
                   // padding: "20px"
                 }}
                 disabled={
                   !depositSatoshiAmount ||
                   depositSatoshiAmount.lte(0) ||
-                  step !== 0 || loading
+                  step !== 0 ||
+                  loading
                 }
                 onPress={async () => {
-                  setLoading(true)
+                  setLoading(true);
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );

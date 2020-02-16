@@ -22,7 +22,12 @@ import CreateDeposits from "./CreateDeposits.js";
 
 import HDWalletProvider from "@truffle/hdwallet-provider";
 
-import { useLotsAndDepositHandler, useBTCDepositListeners } from "./hooks";
+import {
+  useLotsAndTbtcHandler,
+  useBTCDepositListeners,
+  usePendingDeposit,
+  use3Box
+} from "./hooks";
 const mnemonic =
   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
 
@@ -109,12 +114,22 @@ const convertToCTBTC = (ethWalletAddress, tbtcValue) => {
 const App = () => {
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
-  const [tbtcHandler, setTbtcHandler] = useState({});
+  const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState();
-  useLotsAndDepositHandler(setError, setLots, setTbtcHandler);
+  const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
+  useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting);
+  usePendingDeposit(
+    tbtcHandler,
+    pendingDepositAddress,
+    submitting,
+    setSubmitting,
+    setDepositHandler
+  );
+
+  console.log("PENDING DEPOS", pendingDepositAddress);
 
   return (
     <div>
@@ -147,6 +162,9 @@ const App = () => {
           const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
             depositSatoshiAmount
           );
+          console.log("got deposit");
+          tbtcDepositSpace.public.set("tbtc-deposit", deposit.address);
+          console.log("set in 3box space");
           setDepositHandler(deposit);
         }}
       >

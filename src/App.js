@@ -18,6 +18,7 @@ import {
   RadioButton
 } from "grommet";
 // import { grommet } from "grommet/themes";
+import QR from "./components/QRCode";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
@@ -74,7 +75,7 @@ const StyledDots = styled.img`
 `;
 
 const StyledNumber = styled.img`
-  margin-top: -11px;
+  /* margin-top: -11px; */
   padding-right: 20px;
 `;
 
@@ -133,21 +134,46 @@ const MobileCol = styled(Col)`
 }
 `;
 
-const sendWeb3Transaction = () => {
-  const { web3 } = window;
-  const value = web3.utils.toWei("0.01", "ether");
-  web3.eth.sendTransaction({
-    // From address will automatically be replaced by the address of current user
-    from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
-    to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
-    value
-  });
-};
+// const sendWeb3Transaction = () => {
+//   const { web3 } = window;
+//   const value = web3.utils.toWei("0.01", "ether");
+//   web3.eth.sendTransaction({
+//     // From address will automatically be replaced by the address of current user
+//     from: "0x0Cd462db67F44191Caf3756f033A564A0d37cf08",
+//     to: "0x178411f618bba04DFD715deffBdD9B6b13B958c4",
+//     value
+//   });
+// };
 
 const toBtcSize = largeNum => largeNum / 100000000;
 
+const StepComponent = ({ image, loading, headerText, stepDone, style }) => {
+  console.log(image, "image");
+  return (
+    <div style={{ display: "flex", marginRight: "10px", ...style }}>
+      <div style={{ display: "inline" }}>
+        <StyledNumber src={!stepDone ? image : Done} alt="first step" />
+        {loading && (
+          <CircularProgress
+            size="48px"
+            style={{
+              marginLeft: "-68px",
+              marginTop: "-11px",
+              marginRight: "10px"
+            }}
+          />
+        )}
+      </div>
+      <div style={{ marginTop: "11px", display: "inline" }}>
+        <HeaderText>{headerText}</HeaderText>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
@@ -156,16 +182,22 @@ const App = () => {
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
-  useBTCDepositListeners(depositHandler, setSubmitting, submitting);
+  useBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading);
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,
     submitting,
     setSubmitting,
-    setDepositHandler
+    setDepositHandler,
+    setStep,
+    setLoading,
   );
 
-  console.log("PENDING DEPOS", pendingDepositAddress);
+  // useEffect(() => {
+  //   if (step === 0 && !depositHandler){
+  //     setStep(1)
+  //   }
+  // }, [step, depositHandler])
 
   return (
     <Grommet theme={myTheme}>
@@ -177,16 +209,25 @@ const App = () => {
           Convert BTC to TBTC
         </StyledHeading>
       </Header>
+      <button
+        onClick={async () => {
+          await tbtcDepositSpace.public.remove("tbtc-deposit");
+        }}
+      >
+        Erase 3Box
+      </button>
       <Container style={{ paddingTop: "40px" }}>
         <Row>
           <MobileCol md={2} sm={0}>
             <StyledDots src={Dots} alt="dots for fun" />
           </MobileCol>
           <Col md={10} sm={12}>
-            <div>
-              <StyledNumber src={step < 1 ? One : Done} alt="first step" />
-              <HeaderText>Select deposit amount</HeaderText>
-            </div>
+            <StepComponent
+              image={One}
+              stepDone={step > 0}
+              headerText="Select deposit amount"
+              loading={step === 0 && loading}
+            />
             <UnderHeader>
               {lots.map((lot, i) => {
                 return (
@@ -219,7 +260,7 @@ const App = () => {
                   step !== 0
                 }
                 onPress={async () => {
-                  setStep(step + 1);
+                  setLoading(true)
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );
@@ -234,12 +275,18 @@ const App = () => {
                 } BTC Deposit`}
               </AwesomeButton>
             </UnderHeader>
-            <div style={{ marginTop: "55px" }}>
-              <StyledNumber src={Two} alt="first step" />
-              {/* <CircularProgress size="48px" style={{ marginLeft: "-68px", marginTop: "-11px" }} /> */}
-              <HeaderText>Send BTC</HeaderText>
-            </div>
+            <StepComponent
+              style={{ marginTop: "55px " }}
+              image={Two}
+              stepDone={step > 1}
+              headerText="Send BTC"
+              loading={false}
+            />
             <UnderHeader></UnderHeader>
+            <QR
+              shouldDisplay={depositHandler && depositHandler.address}
+              depositHandler={depositHandler}
+            />
           </Col>
         </Row>
       </Container>

@@ -3,7 +3,7 @@ import { CircularProgress } from "@material-ui/core";
 import TBTC from "./tbtc.js/TBTC.js";
 import BitcoinHelpers from "./tbtc.js/BitcoinHelpers";
 import { Container, Row, Col } from "react-bootstrap";
-import Dots from "./images/dots.svg";
+import Dots from "./images/dot-grid-triangle.svg";
 import One from "./images/one.svg";
 import Two from "./images/two.svg";
 import Done from "./images/done.svg";

@@ -156,13 +156,15 @@ export const usePendingDeposit = (
   setSubmitting,
   setDepositHandler,
   setStep,
-  setLoading
+  setLoading,
+  setStep1SigsRequired
 ) => {
   useEffect(() => {
     const listenForPendingDeposits = async () => {
       setSubmitting(true);
       const depositHandler = await tbtcHandler.Deposit.withAddress(
-        depositAddress
+        depositAddress,
+        setStep1SigsRequired
       );
       setDepositHandler(depositHandler);
       depositHandler.onActive(async () => {
@@ -175,6 +177,7 @@ export const usePendingDeposit = (
     };
     if (tbtcHandler && depositAddress && !submitting) {
       console.log("listening for a pending deposit");
+      setStep1SigsRequired(1);
       listenForPendingDeposits();
     }
   }, [

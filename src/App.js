@@ -314,7 +314,8 @@ const App = () => {
     setSubmitting,
     setDepositHandler,
     setStep,
-    setLoading
+    setLoading,
+    setStep1SigsRequired
   );
 
   console.log("step1SigsRequired", step1SigsRequired);
@@ -364,7 +365,8 @@ const App = () => {
               stepDone={step > 0}
               headerText={determineHelperText(
                 step1SigsRequired,
-                submittedInitialDepositAmount
+                submittedInitialDepositAmount,
+                pendingDepositAddress
               )}
               loading={step === 0 && loading}
             />

@@ -89,8 +89,8 @@ export class DepositFactory {
     return deposit;
   }
 
-  async withAddress(depositAddress) {
-    return await Deposit.forAddress(this, depositAddress);
+  async withAddress(depositAddress, setStep1SigsRequired) {
+    return await Deposit.forAddress(this, depositAddress, setStep1SigsRequired);
   }
 
   // Await the deployed() functions of all contract dependencies.
@@ -208,7 +208,8 @@ export default class Deposit {
 
   static async forAddress(
     factory /*: DepositFactory*/,
-    address /*: string*/
+    address /*: string*/,
+    setStep1SigsRequired
   ) /*: Promise<Deposit>*/ {
     console.log(`Looking up Deposit contract at address ${address}...`);
     const contract = await DepositContract.at(address);
@@ -231,7 +232,7 @@ export default class Deposit {
       createdEvent.args._keepAddress
     );
 
-    return new Deposit(factory, contract, keepContract);
+    return new Deposit(factory, contract, keepContract, setStep1SigsRequired);
   }
 
   static async forTDT(

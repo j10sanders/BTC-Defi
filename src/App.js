@@ -78,7 +78,7 @@ const AwesomeButton = styled(StyleButton)`
   --button-primary-color: #3D66FF;
   --button-primary-color-dark: #2a3143;
   --button-primary-color-light: #d4d9e4;
-  --button-primary-color-hover: #424e6a;
+  --button-primary-color-hover: #213fad;
   --button-primary-border: none;
   --button-secondary-color: #fffc6c;
   --button-secondary-color-dark: #b9b500;

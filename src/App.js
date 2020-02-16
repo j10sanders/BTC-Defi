@@ -61,13 +61,12 @@ import {
   getAddressAndBalances
 } from "./hooks";
 
-
 const AwesomeButton = styled(StyleButton)`
   --button-default-height: 48px;
   --button-default-font-size: 14px;
   --button-default-border-radius: 6px;
   --button-horizontal-padding: 20px;
-  --button-raise-level: 5px;
+  /* --button-raise-level: 5px; */
   --button-hover-pressure: 2;
   --transform-speed: 0.185s;
   --button-primary-color: #3d66ff;
@@ -427,24 +426,34 @@ const App = () => {
             )}
             <StepComponent
               style={{ marginTop: "55px" }}
-              image='/three.svg'
+              image="/three.svg"
               stepDone={false}
               headerText="Go into DeFi"
               loading={false}
             />
-            {/* {step === 2 && ( */}
+            {step === 2 && (
             <UnderHeader>
-              <div>{`Current Address: ${currentAddress}`}</div>
-              <div>{`TBTC Balance: ${balances.TBTC}`}</div>
-              <div>{`Allowance: ${balances.result}`}</div>
-              <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
-              <AwesomeButton
-                onPress={() => {
-                  approveCtbcContract(currentAddress);
-                }}
-              >
-                Enable CTBTC Minting
-              </AwesomeButton>
+              <div style={{ marginBottom: "20px" }}>
+                <div>{`TBTC Balance: ${balances.TBTC}`}</div>
+                <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
+              </div>
+              <div style={{ marginBottom: "20px" }}>
+                <AwesomeButton
+                  onPress={() => {
+                    approveCtbcContract(currentAddress);
+                  }}
+                  style={{ marginRight: "10px" }}
+                >
+                  Enable CTBTC Minting
+                </AwesomeButton>
+                <AwesomeButton
+                  onPress={() => {
+                    approveUniswapContract(currentAddress);
+                  }}
+                >
+                  Enable Uniswap trading
+                </AwesomeButton>
+              </div>
               <div style={{ width: "200px" }}>
                 <TextInput
                   label="Input amount"
@@ -453,23 +462,21 @@ const App = () => {
                   onChange={event => setInputAmount(event.target.value)}
                 />
               </div>
-              <AwesomeButton
-                onPress={() => {
-                  useTbtcToMintCtbtc(currentAddress, inputAmount);
-                }}
-                disabled={balances.result && currentAddress}
-              >
-                Mint cTBtc
-              </AwesomeButton>
-              <AwesomeButton
-                onPress={() => {
-                  approveUniswapContract(currentAddress);
-                }}
-              >
-                Enable Uniswap trading
-              </AwesomeButton>
+              <div style={{ marginTop: "20px" }}>
+                <AwesomeButton
+                  onPress={() => {
+                    useTbtcToMintCtbtc(currentAddress, inputAmount);
+                  }}
+                  disabled={
+                    !balances.result || balances.result === "0" || !currentAddress
+                  }
+                  style={{ marginRight: "10px" }}
+                >
+                  Mint cTBtc
+                </AwesomeButton>
+              </div>
             </UnderHeader>
-            {/* )} */}
+            )}
           </Col>
         </Row>
       </Container>

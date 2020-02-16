@@ -31,6 +31,7 @@ import {
   getTradeDetails,
   TRADE_EXACT,
   tradeExactEthForTokensWithData,
+  tradeExactTokensForEthWithData,
   getExecutionDetails,
   FACTORY_ABI
 } from "@uniswap/sdk";
@@ -202,6 +203,7 @@ const useTbtcToMintCtbtc = async (currentAddress, inputAmount) => {
 };
 
 const approveUniswapContract = async currentAddress => {
+  console.log("Approving uniswap");
   const tbtcTokenContract = new web3.eth.Contract(ctbtcABI, tbtcTokenAddress);
   let receipt;
   try {
@@ -212,6 +214,44 @@ const approveUniswapContract = async currentAddress => {
     console.error("Error approving Uniswap", err);
   }
   console.log(receipt);
+};
+
+const convertTBTCtoETH = async (currentAddress, purchaseAmountString) => {
+  console.log("HIT!", purchaseAmountString);
+  const purchaseAmount = new BigNumber(purchaseAmountString.toString());
+  console.log(purchaseAmount);
+  const _decimals = 18;
+  const _tradeAmount = purchaseAmount.shiftedBy(_decimals);
+  console.log("TradeAmount" + _tradeAmount);
+
+  let reserves = await getTokenReserves(
+    "0x083f652051b9CdBf65735f98d83cc329725Aa957",
+    3
+  );
+  let trade = await tradeExactTokensForEthWithData(reserves, _tradeAmount);
+  let formattedTrade = await getExecutionDetails(trade);
+
+  console.log("formattedTrade", formattedTrade);
+  window.trade = formattedTrade;
+  console.log(
+    "Swap method arguments",
+    formattedTrade.methodArguments[0],
+    formattedTrade.methodArguments[1],
+    formattedTrade.methodArguments[2]
+  );
+
+  const exchangeContractInstance = new web3.eth.Contract(
+    exchangeABI,
+    exchangeAddress
+  );
+  let receipt = await exchangeContractInstance.methods
+    .tokenToEthSwapInput(
+      formattedTrade.methodArguments[0],
+      formattedTrade.methodArguments[1],
+      formattedTrade.methodArguments[2]
+    )
+    .send({ from: currentAddress });
+  console.log("Converrted TBTC to ETH on uniswap " + receipt.toString());
 };
 
 // async function getMarkets() {
@@ -446,6 +486,16 @@ const App = () => {
             >
               Enable cTBTC Minting
             </AwesomeButton>
+            <AwesomeButton
+              onPress={() => {
+                approveUniswapContract(currentAddress);
+              }}
+              style={{
+                marginTop: "14px"
+              }}
+            >
+              Enable Uniswap trading
+            </AwesomeButton>
             <TextInput
               label="Input amount"
               value={inputAmount}
@@ -456,17 +506,14 @@ const App = () => {
                 useTbtcToMintCtbtc(currentAddress, inputAmount);
               }}
             >
-              <AwesomeButton
-                onPress={() => {
-                  approveUniswapContract(currentAddress);
-                }}
-                style={{
-                  marginTop: "14px"
-                }}
-              >
-                Enable Uniswap trading
-              </AwesomeButton>
               Mint cTBtc
+            </AwesomeButton>
+            <AwesomeButton
+              onPress={() => {
+                convertTBTCtoETH(currentAddress, inputAmount);
+              }}
+            >
+              Swap TBTC for ETH
             </AwesomeButton>
           </Col>
         </Row>

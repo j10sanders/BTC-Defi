@@ -5,6 +5,12 @@ import BitcoinHelpers from "../tbtc.js/BitcoinHelpers";
 
 import Fortmatic from "fortmatic";
 import Web3 from "web3";
+const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
+const cbtcTokenAddress = "0xb40d042a65dd413ae0fd85becf8d722e16bc46f1"; //ropsten
+var ctbtcABI = require("../ctbtcABI.json");
+var tbtcABI = require("../TBTCABI.json");
+console.log("ABI1", ctbtcABI);
+console.log("ABI2", tbtcABI);
 
 // import HDWalletProvider from "@truffle/hdwallet-provider";
 // const mnemonic =
@@ -17,13 +23,13 @@ import Web3 from "web3";
 
 let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 const provider = fm.getProvider();
+const web3 = new Web3(provider);
 
 export const use3Box = () => {
   const [pendingDepositAddress, setPendingDepositAddress] = useState("");
   const [tbtcDepositSpace, setTbtcDepositSpace] = useState(null);
   useEffect(() => {
     const fetchInfoFrom3Box = async () => {
-      const web3 = new Web3(provider);
       const [defaultAccount] = await web3.eth.getAccounts();
       const box = await Box.create(provider);
       const spaces = ["tbtc-deposit"];
@@ -38,6 +44,36 @@ export const use3Box = () => {
     fetchInfoFrom3Box();
   }, []);
   return { pendingDepositAddress, tbtcDepositSpace };
+};
+
+export const getAddressAndBalances = () => {
+  const [currentAddress, setCurrentAddress] = useState("");
+  const [balances, setBalances] = useState({ CTBTC: 0, TBTC: 0 });
+  useEffect(() => {
+    const fetchBalances = async () => {
+      const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
+      const TBTCTokenContract = new web3.eth.Contract(
+        tbtcABI,
+        tbtcTokenAddress
+      );
+      const [currentAccount] = await web3.eth.getAccounts();
+      if (currentAccount) {
+        setCurrentAddress(currentAccount);
+        let CTBTC = await cTBTCContract.methods
+          .balanceOfUnderlying(currentAccount)
+          .call();
+        let TBTC = await TBTCTokenContract.methods
+          .balanceOf(currentAccount)
+          .call();
+        setBalances({ CTBTC, TBTC });
+        console.log(TBTC, CTBTC, currentAccount);
+      } else {
+        console.error("Could not get current account");
+      }
+    };
+    fetchBalances();
+  }, [web3]);
+  return { currentAddress, balances };
 };
 
 export const getLotsAndTbtcHandler = (setError, setLots, setTbtcHandler) => {

@@ -5,6 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Dots from "./images/dots.svg";
 import One from "./images/one.svg";
 import Two from "./images/two.svg";
+import Done from "./images/done.svg";
 import {
   Grommet,
   Button,
@@ -15,7 +16,7 @@ import {
   Header,
   RadioButton
 } from "grommet";
-import { grommet } from "grommet/themes";
+// import { grommet } from "grommet/themes";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
@@ -89,13 +90,13 @@ const UnderHeader = styled.div`
   margin-top: 10px;
   padding-left: 68px;
 `;
-const mnemonic =
-  "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
+// const mnemonic =
+//   "egg dune news grocery detail frog kiwi hidden tuna noble speak over";
 
-const provider = new HDWalletProvider(
-  mnemonic,
-  "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
-);
+// const provider = new HDWalletProvider(
+//   mnemonic,
+//   "https://ropsten.infura.io/v3/bf239bcb4eb2441db2ebaff8f9d80363"
+// );
 
 // let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
 
@@ -133,6 +134,7 @@ const sendWeb3Transaction = () => {
 const toBtcSize = largeNum => largeNum / 100000000;
 
 const App = () => {
+  const [step, setStep] = useState(0)
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
   const [tbtcHandler, setTbtcHandler] = useState({});
@@ -141,19 +143,16 @@ const App = () => {
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   useLotsAndDepositHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting);
-
+  console.log(step, "step")
   return (
     <Grommet theme={myTheme}>
       <Header
         pad="small"
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
-        {/* <Box direction="row" gap="medium" > */}
         <StyledHeading size="small" color="#1A5AFE">
           Convert BTC to TBTC
         </StyledHeading>
-        {/* <Anchor label="Profile" href="#" /> */}
-        {/* </Box> */}
       </Header>
       <Container style={{ paddingTop: "40px" }}>
         <Row>
@@ -162,7 +161,7 @@ const App = () => {
           </Col>
           <Col sm={10} xs={12}>
             <div>
-              <StyledNumber src={One} alt="first step" />
+              <StyledNumber src={step < 1 ? One : Done} alt="first step" />
               <HeaderText>Select deposit amount</HeaderText>
             </div>
             <UnderHeader>
@@ -191,8 +190,9 @@ const App = () => {
                 style={{
                   marginTop: "14px"
                 }}
-                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0)}
-                onClick={async () => {
+                disabled={!depositSatoshiAmount || depositSatoshiAmount.lte(0) || step !== 0}
+                onPress={async () => {
+                  setStep(step + 1)
                   const deposit = await tbtcHandler.Deposit.withSatoshiLotSize(
                     depositSatoshiAmount
                   );

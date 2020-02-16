@@ -271,7 +271,6 @@ const App = () => {
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box();
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
   useBTCDepositListeners(depositHandler, setSubmitting, submitting, setStep, setLoading);
-  useBTCDepositListeners(depositHandler, setSubmitting, submitting);
   usePendingDeposit(
     tbtcHandler,
     pendingDepositAddress,

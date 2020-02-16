@@ -16,6 +16,7 @@ import {
   RadioButton
 } from "grommet";
 import { grommet } from "grommet/themes";
+import QR from "./components/QRCode";
 
 // import ApolloClient, { gql, InMemoryCache } from 'apollo-boost'
 // import { ApolloProvider, Query } from 'react-apollo'
@@ -155,8 +156,6 @@ const App = () => {
     setDepositHandler
   );
 
-  console.log("PENDING DEPOS", pendingDepositAddress);
-
   return (
     <Grommet theme={myTheme}>
       <Header
@@ -227,6 +226,10 @@ const App = () => {
               <HeaderText>Send BTC</HeaderText>
             </div>
             <UnderHeader></UnderHeader>
+            <QR
+              shouldDisplay={depositHandler && depositHandler.address}
+              depositHandler={depositHandler}
+            />
           </Col>
         </Row>
       </Container>

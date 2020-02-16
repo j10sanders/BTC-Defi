@@ -125,19 +125,19 @@ const onBTCAddressResolution = async (address, depositHandler) => {
     `Submitting funding proof to deposit ${depositHandler.address} for ` +
       `Bitcoin transaction ${tx.transactionID}...`
   );
-  // const proofArgs = await depositHandler.constructFundingProof(
-  //   tx,
-  //   requiredConfirmations
-  // );
-  // console.log("just constructed proof args", proofArgs);
-  // proofArgs.push({
-  //   from: depositHandler.factory.config.web3.eth.defaultAccount
-  // });
-  // depositHandler.contract.provideBTCFundingProof.apply(
-  //   depositHandler.contract,
-  //   proofArgs
-  // );
-  // console.log("submitted the proof");
+  const proofArgs = await depositHandler.constructFundingProof(
+    tx,
+    requiredConfirmations
+  );
+  console.log("just constructed proof args", proofArgs);
+  proofArgs.push({
+    from: depositHandler.factory.config.web3.eth.defaultAccount
+  });
+  depositHandler.contract.provideBTCFundingProof.apply(
+    depositHandler.contract,
+    proofArgs
+  );
+  console.log("submitted the proof");
 };
 
 export const usePendingDeposit = (

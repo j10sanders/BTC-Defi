@@ -1,7 +1,14 @@
 import React, { Component, useState, useEffect } from "react";
 import { CircularProgress } from "@material-ui/core";
 import { Container, Row, Col } from "react-bootstrap";
-import { Grommet, Heading, Header, RadioButton, TextInput } from "grommet";
+import {
+  FormField,
+  Grommet,
+  Heading,
+  Header,
+  RadioButton,
+  TextInput
+} from "grommet";
 // import { grommet } from "grommet/themes";
 import QR from "./components/QRCode";
 import { determineHelperText } from "./utils";
@@ -375,6 +382,16 @@ const App = () => {
             />
             {step1SigsRequired > 1 && (
               <UnderHeader>
+                <div
+                  style={{
+                    fontSize: "24px",
+                    marginBottom: "24px",
+                    color: "grey"
+                  }}
+                >
+                  Once your deposit is received, you will be sent{" "}
+                  <a href="https://tbtc.network/">TBTC</a>
+                </div>
                 {lots && lots.length > 0 ? (
                   <>
                     {lots
@@ -458,14 +475,15 @@ const App = () => {
               style={{ marginTop: "55px" }}
               image="/three.svg"
               stepDone={false}
-              headerText="Go into DeFi"
+              headerText="Earn interest with your TBTC"
               loading={false}
             />
             {step === 2 && (
               <UnderHeader>
                 <div style={{ marginBottom: "20px" }}>
-                  <div>{`TBTC Balance: ${balances.TBTC}`}</div>
-                  <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
+                  <div>{`Your TBTC Balance: ${balances.TBTC}`}</div>
+                  <br />
+                  <div>{`Your CTBTC Balance: ${balances.CTBTC}`}</div>
                 </div>
                 <div style={{ marginBottom: "20px" }}>
                   <AwesomeButton
@@ -474,7 +492,7 @@ const App = () => {
                     }}
                     style={{ marginRight: "10px" }}
                   >
-                    Enable CTBTC Minting
+                    Enable Compound Bitcoin
                   </AwesomeButton>
                   <AwesomeButton
                     onPress={() => {
@@ -484,9 +502,16 @@ const App = () => {
                     Enable Uniswap trading
                   </AwesomeButton>
                 </div>
-                <div style={{ width: "200px" }}>
+                <div
+                  style={{
+                    width: "200px",
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
+                  <p style={{ marginBottom: "5px" }}>Amount in TBTC</p>
                   <TextInput
-                    label="Input amount"
+                    style={{ marginRight: "5px" }}
                     size="small"
                     value={inputAmount}
                     onChange={event => setInputAmount(event.target.value)}
@@ -504,7 +529,7 @@ const App = () => {
                     }
                     style={{ marginRight: "10px" }}
                   >
-                    Mint cTBtc
+                    Convert to Compound Bitcoin (CTBTC)
                   </AwesomeButton>
                   <AwesomeButton
                     onPress={() => {
@@ -517,7 +542,7 @@ const App = () => {
                     }
                     style={{ marginRight: "10px" }}
                   >
-                    Swap TBTC for ETH
+                    Swap for ETHER
                   </AwesomeButton>
                 </div>
               </UnderHeader>

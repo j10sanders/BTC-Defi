@@ -197,6 +197,19 @@ const useTbtcToMintCtbtc = async (currentAddress, inputAmount) => {
   }
 };
 
+const approveUniswapContract = async currentAddress => {
+  const tbtcTokenContract = new web3.eth.Contract(ctbtcABI, tbtcTokenAddress);
+  let receipt;
+  try {
+    receipt = await tbtcTokenContract.methods
+      .approve(exchangeAddress, web3.utils.toBN(10e18))
+      .send({ from: currentAddress });
+  } catch (err) {
+    console.error("Error approving Uniswap", err);
+  }
+  console.log(receipt);
+};
+
 // async function getMarkets() {
 //   const _purchaseAmount = new BigNumber("3");
 //   // const _purchaseAmount: BigNumber = new BigNumber('2.5')
@@ -275,7 +288,7 @@ const App = () => {
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const [inputAmount, setInputAmount] = useState("0");
-  const { currentAddress, balances } = getAddressAndBalances();
+  const { currentAddress, balances, allowance } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
@@ -416,6 +429,7 @@ const App = () => {
             <div>
               <h1> {`Current Address: ${currentAddress}`}</h1>
               <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
+              <h1> {`Allowance: ${balances.result}`}</h1>
               <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
             </div>
             <AwesomeButton
@@ -438,6 +452,16 @@ const App = () => {
                 useTbtcToMintCtbtc(currentAddress, inputAmount);
               }}
             >
+              <AwesomeButton
+                onPress={() => {
+                  approveUniswapContract(currentAddress);
+                }}
+                style={{
+                  marginTop: "14px"
+                }}
+              >
+                Enable Uniswap trading
+              </AwesomeButton>
               Mint cTBtc
             </AwesomeButton>
           </Col>

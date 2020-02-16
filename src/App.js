@@ -340,12 +340,13 @@ const App = () => {
               )}
               <AwesomeButton
                 style={{
-                  marginTop: "14px"
+                  marginTop: "14px",
+                  // padding: "20px"
                 }}
                 disabled={
                   !depositSatoshiAmount ||
                   depositSatoshiAmount.lte(0) ||
-                  step !== 0
+                  step !== 0 || loading
                 }
                 onPress={async () => {
                   setLoading(true)

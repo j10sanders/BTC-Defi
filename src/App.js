@@ -91,7 +91,9 @@ const AwesomeButton = styled(StyleButton)`
   --button-anchor-border: 1px solid #8c633c;
 `;
 
-const web3 = new Web3(window.ethereum);
+let fm = new Fortmatic("pk_test_001FD198F278ECC9", "ropsten");
+const provider = fm.getProvider();
+const web3 = new Web3(provider);
 const myTheme = {
   radioButton: {
     check: {
@@ -173,24 +175,27 @@ const approveCtbcContract = async currentAddress => {
   const tbtcTokenContract = new web3.eth.Contract(ctbtcABI, tbtcTokenAddress);
   let receipt;
   try {
+    console.log("Current Address", currentAddress);
     receipt = await tbtcTokenContract.methods
       .approve(cbtcTokenAddress, web3.utils.toBN(10e18))
       .send({ from: currentAddress });
   } catch (err) {
-    console.error("Error approving contract", err);
+    console.error("Error approving Compound Contract", err);
   }
 };
-const convertTbtcToCbtc = async (currentAddress, mintAmount) => {
+const useTbtcToMintCtbtc = async (currentAddress, inputAmount) => {
+  console.log("MINT CALLED", currentAddress, inputAmount);
+  inputAmount = ".01";
   //grab ABI from ctbtc.json
+  console.log("MINT CALLED", currentAddress, inputAmount);
   const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
-  window.ctoken = cTBTCContract;
-  const numCtbtcToMint = web3.utils.toWei(".1", "ether"); //mint amount should be first arg
+  const numCtbtcToMint = web3.utils.toWei(inputAmount.toString(), "ether"); //mint amount should be first arg
   let receipt;
   try {
     receipt = await cTBTCContract.methods.mint(numCtbtcToMint).send({
       from: currentAddress
     });
-    console.log("receipt", receipt);
+    console.log("Minted receipt", receipt);
   } catch (err) {
     console.error("Err minting", err);
   }
@@ -273,7 +278,7 @@ const App = () => {
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
-  const [mintAmount, setMintAmount] = useState("");
+  const [inputAmount, setInputAmount] = useState("0");
   const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
@@ -410,25 +415,29 @@ const App = () => {
               </UnderHeader>
             )}
             <div>
-              <AwesomeButton
-                onPress={approveCtbcContract(currentAddress)}
-                style={{
-                  marginTop: "14px"
-                }}
-              >
-                Approve
-              </AwesomeButton>
               <h1> {`Current Address: ${currentAddress}`}</h1>
               <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
               <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
             </div>
+            <AwesomeButton
+              onPress={() => {
+                approveCtbcContract(currentAddress);
+              }}
+              style={{
+                marginTop: "14px"
+              }}
+            >
+              Enable cTBTC Minting
+            </AwesomeButton>
             <TextInput
-              label="Mint Compound BTC"
-              value={mintAmount}
-              onChange={event => setMintAmount(event.target.value)}
+              label="Input amount"
+              value={inputAmount}
+              onChange={event => setInputAmount(event.target.value)}
             />
             <AwesomeButton
-              onPress={convertTbtcToCbtc(currentAddress, mintAmount)}
+              onPress={() => {
+                useTbtcToMintCtbtc(currentAddress, inputAmount);
+              }}
             >
               Mint cTBtc
             </AwesomeButton>

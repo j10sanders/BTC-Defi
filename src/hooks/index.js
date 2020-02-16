@@ -49,15 +49,29 @@ export const use3Box = setStep => {
 export const getAddressAndBalances = () => {
   const [currentAddress, setCurrentAddress] = useState("");
   const [balances, setBalances] = useState({ CTBTC: 0, TBTC: 0 });
+  const [canMint, setCanMint] = useState(false);
   useEffect(() => {
     const fetchBalances = async () => {
+      const [currentAccount] = await web3.eth.getAccounts();
       const cTBTCContract = new web3.eth.Contract(ctbtcABI, cbtcTokenAddress);
       const TBTCTokenContract = new web3.eth.Contract(
         tbtcABI,
         tbtcTokenAddress
       );
-      const [currentAccount] = await web3.eth.getAccounts();
+
       if (currentAccount) {
+        const tbtcTokenAddress = "0x083f652051b9CdBf65735f98d83cc329725Aa957";
+        var ctbtcABI = require("../ctbtcABI.json");
+        console.log("ABI", ctbtcABI);
+        // const tbtcTokenContract = new web3.eth.Contract(
+        //   ctbtcABI,
+        //   tbtcTokenAddress
+        // );
+        // let result = await tbtcTokenContract.methods
+        //   .balanceOf(currentAccount)
+        //   .call();
+        // console.log(result);
+
         setCurrentAddress(currentAccount);
         let CTBTC = await cTBTCContract.methods
           .balanceOfUnderlying(currentAccount)
@@ -72,7 +86,7 @@ export const getAddressAndBalances = () => {
       }
     };
     fetchBalances();
-  }, [web3]);
+  }, []);
   return { currentAddress, balances };
 };
 

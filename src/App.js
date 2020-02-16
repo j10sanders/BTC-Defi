@@ -30,7 +30,6 @@ import {
   getExecutionDetails,
   FACTORY_ABI
 } from "@uniswap/sdk";
-
 import { BigNumber } from "bignumber.js";
 // import {
 //   // Grid,
@@ -67,7 +66,7 @@ const AwesomeButton = styled(StyleButton)`
   --button-default-font-size: 14px;
   --button-default-border-radius: 6px;
   --button-horizontal-padding: 20px;
-  --button-raise-level: 5px;
+  /* --button-raise-level: 5px; */
   --button-hover-pressure: 2;
   --transform-speed: 0.185s;
   --button-primary-color: #3d66ff;
@@ -282,13 +281,12 @@ const App = () => {
   const [txInFlight, setTxInFlight] = useState(false);
   const [error, setError] = useState("");
   const [lots, setLots] = useState([]);
-  const [enabled, setEnabled] = useState([false]);
   const [tbtcHandler, setTbtcHandler] = useState(null);
   const [depositHandler, setDepositHandler] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [depositSatoshiAmount, setDepositSatoshiAmount] = useState(null);
   const [inputAmount, setInputAmount] = useState("0");
-  const { currentAddress, balances, allowance } = getAddressAndBalances();
+  const { currentAddress, balances } = getAddressAndBalances();
   const { pendingDepositAddress, tbtcDepositSpace } = use3Box(setStep);
   const [bitcoinDepositComplete, setBitcoinDepositComplete] = useState(false);
   useLotsAndTbtcHandler(setError, setLots, setTbtcHandler);
@@ -321,7 +319,7 @@ const App = () => {
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
         <StyledHeading size="small" color="#1A5AFE">
-          Convert BTC to TBTC
+          Bitcoin Earn
         </StyledHeading>
       </Header>
       <button
@@ -334,7 +332,7 @@ const App = () => {
       <Container style={{ paddingTop: "40px" }}>
         <Row>
           <MobileCol md={2} sm={0}>
-            <StyledDots src="/dots.svg" alt="dots for fun" />
+            <StyledDots src="/dot-grid-triangle.svg" alt="dots for fun" />
           </MobileCol>
           <Col md={10} sm={12}>
             <StepComponent
@@ -416,7 +414,7 @@ const App = () => {
               image="/two.svg"
               stepDone={step > 1}
               headerText="Send BTC"
-              loading={false}
+              loading={txInFlight && !bitcoinDepositComplete}
             />
             {!txInFlight && (
               <UnderHeader>
@@ -426,44 +424,59 @@ const App = () => {
                 />
               </UnderHeader>
             )}
-            <div>
-              <h1> {`Current Address: ${currentAddress}`}</h1>
-              <h1> {`TBTC Balance: ${balances.TBTC}`}</h1>
-              <h1> {`Allowance: ${balances.result}`}</h1>
-              <h1> {`CTBTC Balance: ${balances.CTBTC}`}</h1>
-            </div>
-            <AwesomeButton
-              onPress={() => {
-                approveCtbcContract(currentAddress);
-              }}
-              style={{
-                marginTop: "14px"
-              }}
-            >
-              Enable cTBTC Minting
-            </AwesomeButton>
-            <TextInput
-              label="Input amount"
-              value={inputAmount}
-              onChange={event => setInputAmount(event.target.value)}
+            <StepComponent
+              style={{ marginTop: "55px" }}
+              image="/three.svg"
+              stepDone={false}
+              headerText="Go into DeFi"
+              loading={false}
             />
-            <AwesomeButton
-              onPress={() => {
-                useTbtcToMintCtbtc(currentAddress, inputAmount);
-              }}
-            >
-              <AwesomeButton
-                onPress={() => {
-                  approveUniswapContract(currentAddress);
-                }}
-                style={{
-                  marginTop: "14px"
-                }}
-              >
-                Enable Uniswap trading
-              </AwesomeButton>
-              Mint cTBtc
-            </AwesomeButton>
+            {step === 2 && (
+            <UnderHeader>
+              <div style={{ marginBottom: "20px" }}>
+                <div>{`TBTC Balance: ${balances.TBTC}`}</div>
+                <div>{`CTBTC Balance: ${balances.CTBTC}`}</div>
+              </div>
+              <div style={{ marginBottom: "20px" }}>
+                <AwesomeButton
+                  onPress={() => {
+                    approveCtbcContract(currentAddress);
+                  }}
+                  style={{ marginRight: "10px" }}
+                >
+                  Enable CTBTC Minting
+                </AwesomeButton>
+                <AwesomeButton
+                  onPress={() => {
+                    approveUniswapContract(currentAddress);
+                  }}
+                >
+                  Enable Uniswap trading
+                </AwesomeButton>
+              </div>
+              <div style={{ width: "200px" }}>
+                <TextInput
+                  label="Input amount"
+                  size="small"
+                  value={inputAmount}
+                  onChange={event => setInputAmount(event.target.value)}
+                />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <AwesomeButton
+                  onPress={() => {
+                    useTbtcToMintCtbtc(currentAddress, inputAmount);
+                  }}
+                  disabled={
+                    !balances.result || balances.result === "0" || !currentAddress
+                  }
+                  style={{ marginRight: "10px" }}
+                >
+                  Mint cTBtc
+                </AwesomeButton>
+              </div>
+            </UnderHeader>
+            )}
           </Col>
         </Row>
       </Container>

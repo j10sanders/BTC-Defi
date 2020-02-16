@@ -307,7 +307,7 @@ const App = () => {
         style={{ textAlign: "center", borderBottom: "1px solid #DFE0E5" }}
       >
         <StyledHeading size="small" color="#1A5AFE">
-          Convert BTC to TBTC
+          Bitcoin Earn 
         </StyledHeading>
       </Header>
       <button
